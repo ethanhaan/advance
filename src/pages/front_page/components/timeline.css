@@ -1,0 +1,113 @@
+/* src/Timeline.css */
+
+.timeline-container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #1a1a1a;
+}
+
+.timeline-item {
+  position: relative;
+  flex: 0.25; /* Start slim */
+  height: 100%;
+  transition: flex 0.8s cubic-bezier(0.075, 0.82, 0.165, 1);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.timeline-item:hover {
+  flex: 5; /* Expand horizontally on hover */
+}
+
+/* 
+** NEW: Styling for the idle (vertical) title **
+*/
+.timeline-item-title-idle {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%) rotate(0deg); /* Initial position for transform */
+  color: white;
+  font-size: 1.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  
+  /* The magic for vertical text */
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  
+  /* Smoothly fade out on hover */
+  opacity: 1;
+  transition: opacity 0.6s ease, left 0.6s ease;
+}
+
+/* 
+** On hover, fade out the vertical title **
+*/
+.timeline-item:hover .timeline-item-title-idle {
+  opacity: 0;
+  left: -2rem; /* Optional: slide it out for a nicer effect */
+}
+
+
+/* 
+** The main content block is now COMPLETELY hidden by default **
+*/
+.timeline-item-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2rem;
+  color: white;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0));
+  
+  /* Start hidden */
+  transform: translateY(100%);
+  opacity: 0;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+/* 
+** On hover, the main content block slides and fades in **
+*/
+.timeline-item:hover .timeline-item-content {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+
+/* The title inside the expanded content block */
+.timeline-item-title {
+  font-size: 1.8rem;
+  margin: 0.5rem 0;
+}
+
+.timeline-item-date {
+  font-size: 0.9rem;
+  font-weight: 300;
+  display: block;
+}
+
+.timeline-item-desc {
+  font-size: 1rem;
+}
+
+
+/* Styling for the background image */
+.timeline-item-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* This crops the image to show a "partial" view */
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  filter: grayscale(80%) brightness(0.7);
+  transition: filter 0.5s ease;
+}
+
+.timeline-item:hover .timeline-item-image {
+  filter: grayscale(0%) brightness(1);
+}
