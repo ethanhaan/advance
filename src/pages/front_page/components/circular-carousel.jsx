@@ -28,6 +28,7 @@ const items = [
 ];
 
 
+// eslint-disable-next-line react-refresh/only-export-components
 export default () => {
   // --- Carousel Configuration ---
   const carouselRadius = 350; // The radius of the circle (in pixels)

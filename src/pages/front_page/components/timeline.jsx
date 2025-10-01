@@ -1,44 +1,70 @@
-import React from 'react';
-import TimelineItem from './TimelineItem';
-import './Timeline.css';
+// src/components/Timeline.jsx
 
+import React, { useState } from 'react';
+import TimelineItem from './TimelineItem'; // Make sure the path is correct
+import './Timeline.css'; // Import the CSS file
+
+// Data for the timeline
 const timelineData = [
   {
-    date: '2022-01-15',
-    title: 'Project Kick-off',
-    // Working URL from Unsplash
-    imageUrl: 'https://images.unsplash.com/photo-1556761175-b413da4baf72?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80',
-    description: 'The official start of our exciting new project. All hands on deck!'
+    date: 'August 21, 2024',
+    title: 'Career Panel Event',
+    imageUrl: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+    description: 'Hosted our annual career panel, connecting students with industry professionals.'
   },
   {
-    date: '2022-03-22',
-    title: 'First Milestone',
-    // Working URL from Unsplash
-    imageUrl: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
-    description: 'Successfully reached our first major goal. A big win for the team!'
+    date: 'October 15, 2024',
+    title: '2,000 Students and Growing!',
+    imageUrl: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80',
+    description: 'Our impact continues to grow! Workshops at local high schools take us past 2,000 students.'
   },
   {
-    date: '2022-06-10',
-    title: 'User Testing',
-    // Working URL from Unsplash
-    imageUrl: 'https://images.unsplash.com/photo-1543286386-713bdd548da4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
-    description: 'Gathering valuable feedback from our beta testers.'
+    date: 'November 5, 2024',
+    title: 'Leadership Workshop',
+    imageUrl: 'https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+    description: 'A special workshop focusing on building leadership skills for the next generation.'
   },
   {
-    date: '2022-09-30',
-    title: 'Product Launch',
-    // Working URL from Unsplash
-    imageUrl: 'https://images.unsplash.com/photo-1579389083395-4507e9d162c8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
-    description: 'Our product is now live and available to the public!'
+    date: 'December 1, 2024',
+    title: 'End of Year Celebration',
+    imageUrl: 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+    description: 'Celebrating a successful year of impact and growth with our team and volunteers.'
   }
 ];
 
-export default function timeline() {
+const Timeline = () => {
+  // State to track the active (hovered) item. Initialize to the second item.
+  const [activeIndex, setActiveIndex] = useState(1);
+
   return (
-    <div className="timeline-container">
-      {timelineData.map((data, idx) => (
-        <TimelineItem data={data} key={idx} />
-      ))}
+    <div className="timeline-section">
+      <h1 className="main-title">Our History</h1>
+      
+      {/* Container for the image cards */}
+      <div className="timeline-items-container">
+        {timelineData.map((data, index) => (
+          <TimelineItem 
+            data={data}
+            index={index}
+            key={index}
+            isActive={index === activeIndex}
+            onHover={setActiveIndex}
+          />
+        ))}
+      </div>
+
+      {/* Container for the bottom timeline track */}
+      <div className="timeline-track-container">
+        <div className="timeline-track"></div>
+        {timelineData.map((data, index) => (
+          <div key={index} className={`track-item ${index === activeIndex ? 'active' : ''}`}>
+            <div className="track-marker"></div>
+            <div className="track-date">{data.date}</div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
+
+export default Timeline;
