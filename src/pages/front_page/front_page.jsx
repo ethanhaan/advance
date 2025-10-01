@@ -1,13 +1,13 @@
 import React from 'react';
 import Timeline from './components/timeline';
-import CircularCarousel from './components';
+import CircularCarousel from './components/circular-carousel';
 
 export default function frontpage () {
   return (
-    <>
-      <div>random div here</div>
-      <Timeline />
+    <div style={{
+      width: "100vw"
+    }}>
       <CircularCarousel />
-    </>
+    </div>
   )
 }
