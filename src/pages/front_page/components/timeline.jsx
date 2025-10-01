@@ -1,4 +1,5 @@
 // src/components/Timeline.jsx
+//
 
 import React, { useState } from 'react';
 import TimelineItem from './TimelineItem'; // Make sure the path is correct
