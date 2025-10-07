@@ -1,13 +1,13 @@
 /* ===========================
-   Hero (reference-matched, revised)
+   Hero (reference-matched)
    =========================== */
 
 :root {
   /* Colors */
-  --hero-bg: #0b0f14;           /* solid near-black */
+  --hero-bg: #0b0f14; /* solid near-black */
   --text-main: #ffffff;
-  --text-muted: #a0a0a0;        /* general muted copy */
-  --eyebrow: #dadada;           /* soft gray-white for eyebrow */
+  --text-muted: #a0a0a0; /* for general muted copy if needed */
+  --eyebrow: #dadada;    /* soft gray-white for eyebrow */
   --divider: rgba(255, 255, 255, 0.12);
 
   /* Layout */
@@ -22,8 +22,9 @@
   background: var(--hero-bg);
   overflow: clip;
   isolation: isolate;
-  /* Prevent outside utilities from constraining width; no visual change */
+  /* Optional but safe: prevent outside container utilities from constraining width */
   container-type: inline-size;
+  overflow-x: clip; /* safety: prevent tiny rounding from creating a scrollbar */
 }
 
 /* Decorative BG intentionally hidden (solid background only) */
@@ -31,12 +32,12 @@
   display: none;
 }
 
-/* Full-width container (headline/eyebrow/CTA live here, left-aligned) */
+/* Full-width container — headline/eyebrow/CTA live here (left-aligned) */
 .hero__container {
   width: 100%;
-  max-width: none;                                           /* remove width cap */
-  margin-inline: 0;                                          /* no centering wrapper */
-  padding: var(--pad-y) clamp(1.25rem, 7vw, 6rem);           /* left-biased rhythm */
+  max-width: none;                      /* remove width cap */
+  margin-inline: 0;                     /* no centering wrapper */
+  padding: var(--pad-y) clamp(1.25rem, 7vw, 6rem);
   display: grid;
   gap: clamp(1rem, 2vw, 2rem);
   text-align: left;
@@ -48,44 +49,44 @@
   text-align: left;
 }
 
-/* Eyebrow: sentence case, subtle tracking, soft color, medium weight */
+/* Eyebrow */
 .hero__eyebrow {
   margin: 0 0 0.9rem 0;
+  /* font-family: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif; */
+  font-family: "Poly", ui-serif, Georgia, Cambria, "Times New Roman", serif;
   font-size: 0.95rem;
   line-height: 1.35;
-  font-weight: 600;          /* 500–600 acceptable */
+  font-weight: 400;          /* 500–600 acceptable; using 400 to match your current setup */
   text-transform: none;      /* sentence case */
   letter-spacing: 0.02em;    /* subtle tracking */
   color: var(--eyebrow);
 }
 
-/* Headline: Poly serif, lighter weight, constrained line length */
+/* Headline (Poly), slightly smaller clamp */
 .hero__headline {
   margin: 0 0 clamp(1.4rem, 3.8vw, 2.4rem) 0;
   font-family: "Poly", ui-serif, Georgia, Cambria, "Times New Roman", serif;
-  font-weight: 400;                        /* Poly’s lighter feel */
-  font-style: normal;
-  font-synthesis: weight style;
-  line-height: 1.15;                       /* readable with Poly’s x-height */
-  font-size: clamp(2rem, 4.5vw, 3.25rem);  /* smaller across breakpoints */
-  max-width: 20ch;                         /* elegant wrap */
+  font-weight: 400;
+  line-height: 1.15;                        /* maintain readability */
+  font-size: clamp(2rem, 4.5vw, 3.25rem);   /* smaller across breakpoints */
+  max-width: 20ch;
   color: #fff;
 }
 
-/* Italic phrase; uses Poly italic and breaks line on desktop */
+/* Italic phrase; force line break on desktop */
 .hero__headline-italic {
   font-family: "Poly", ui-serif, Georgia, Cambria, "Times New Roman", serif;
-  font-style: italic;   /* Poly italic */
+  font-style: italic;
   font-weight: 400;
-  display: inline;      /* soft-wrap on small screens */
+  display: inline;
 }
 @media (min-width: 768px) {
   .hero__headline-italic {
-    display: block;     /* force onto new line on desktop */
+    display: block;
   }
 }
 
-/* CTA: taller/wider pill with dark circular icon container to the right */
+/* CTA */
 .hero__cta {
   display: inline-flex;
   align-items: center;
@@ -95,8 +96,8 @@
   text-decoration: none;
   border: 1px solid #ffffff;
   border-radius: 999px;
-  padding: 0.95rem 0.95rem 0.95rem 1.25rem;  /* target ~54–56px tall */
-  min-height: 54px;
+  padding: 0.2rem 0.20rem 0.20rem 1.25rem;
+  min-height: 30px;
   font-weight: 600;
   line-height: 1;
   will-change: transform, opacity;
@@ -111,8 +112,12 @@
   transform: translateY(0);
   opacity: 0.96;
 }
-.hero__cta-text { display: inline-block; }
+.hero__cta-text { 
+  display: inline-block;
+  font-family: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
 .hero__cta-iconwrap {
+  margin-right: 5px;
   width: 36px;
   height: 36px;
   border-radius: 999px;
@@ -127,21 +132,18 @@
    Centered belt for stats + divider (outside hero__container)
    =========================== */
 
-/* Full-width belt that sits outside the padded hero__container */
 .hero__belt {
   width: 100%;
   background: var(--hero-bg); /* visually part of the hero */
 }
 
-/* Centered inner container with symmetric padding (no left bias) */
 .hero__belt-inner {
   max-width: var(--max-w, 1200px);
   margin-inline: auto;
   padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1.25rem, 4vw, 2rem); /* symmetric L/R */
-  text-align: center; /* center-align stats by default */
 }
 
-/* Stats: centered grid */
+/* Stats: centered wrapper, but stat content stays left-aligned */
 .hero__stats {
   list-style: none;
   margin: 0;            /* spacing handled by belt-inner padding */
@@ -149,7 +151,8 @@
   display: grid;
   grid-template-columns: 1fr 1fr;  /* 2-up mobile */
   gap: 1rem 2rem;
-  justify-items: center;           /* center each cell’s content */
+  justify-items: center;            /* keep each item left-aligned */
+  text-align: left;                /* left-align text within each cell */
 }
 @media (min-width: 768px) {
   .hero__stats {
@@ -157,7 +160,7 @@
   }
 }
 
-/* Stat items: text-only (no cards) */
+/* Stat items (text-only, no cards) */
 .hero__stat {
   display: grid;
   gap: 0.35rem;
@@ -166,17 +169,18 @@
   border-radius: 0;
 }
 
-/* Typography for value/label */
 .hero__stat-value,
 .hero__stat-label {
   font-family: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
 }
+
 .hero__stat-value {
   font-weight: 400;
   font-size: clamp(1.75rem, 3.2vw, 2.25rem);
   line-height: 1.15;
-  color: #fff;
+  color: #ffffff;
 }
+
 .hero__stat-label {
   font-size: 0.85rem;
   line-height: 1.35;
@@ -185,18 +189,11 @@
   color: var(--text-muted, #a0a0a0);
 }
 
-/* Divider: centered to match stats; optional inset from inner edges */
-:root { --divider-inset: 20px; }
+/* Divider: centered to match belt inner width */
 .hero__stats-divider {
   margin-top: clamp(1.25rem, 3.5vw, 2.25rem);
   height: 1px;
   background: var(--divider);
-  width: calc(100% - (var(--divider-inset) * 2)); /* inset inside inner */
-  margin-inline: var(--divider-inset);
-}
-
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .hero__cta { transition: none; }
+  width: 100%;           /* align with .hero__belt-inner content width */
 }
 

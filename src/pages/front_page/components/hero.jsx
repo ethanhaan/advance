@@ -4,12 +4,9 @@ import "./hero.css";
 /**
  * Hero component (reference-matched)
  * - Solid dark background (no image/gradient)
- * - Left-aligned at all breakpoints
- * - Serif headline with italic phrase forced to new line on ≥768px
- * - Taller CTA with dark circular icon container
- * - Clean, unboxed stats row with divider
+ * - Left-aligned eyebrow/headline/CTA inside .hero__container
+ * - Stats + divider live outside the container in a centered belt
  */
-
 export default function Hero({ style }) {
   return (
     <section className="hero" style={style} aria-label="Empowering Youth Hero">
