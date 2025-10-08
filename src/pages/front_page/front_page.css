@@ -1,21 +1,4 @@
-.hero-sticky-container {
-  position: sticky;
-  top: 0;
-  z-index: 1; /* Sits below RedPage (which has z-index: 2) */
-  
-  /* Smooth transition for hiding/showing */
-  transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
-}
-
-.hero-sticky-container.hidden {
-  opacity: 0;
-  visibility: hidden;
-  /* Prevents interaction with the invisible hero */
-  pointer-events: none;
-}
-
-/* This is an invisible element we use as a trigger */
-.observer-trigger {
-  height: 1px;
-  width: 100%;
+hero-sticky-container {
+  height: 200vh; /* 100vh for Hero + 100vh for RedPage */
+  position: relative;
 }
