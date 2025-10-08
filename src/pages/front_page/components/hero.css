@@ -4,7 +4,6 @@
 
 :root {
   /* Colors */
-  --hero-bg: #0b0f14; /* solid near-black */
   --text-main: #ffffff;
   --text-muted: #a0a0a0; /* for general muted copy if needed */
   --eyebrow: #dadada;    /* soft gray-white for eyebrow */
@@ -19,20 +18,24 @@
 .hero {
   position: relative;
   color: var(--text-main);
-  background: var(--hero-bg);
+  
+  /* --- Background Image Changes --- */
+  background: 
+    /* Dark overlay for text readability */
+    linear-gradient(rgba(11, 15, 20, 0.6), rgba(11, 15, 20, 0.6)),
+    /* Your background image */
+    url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop') no-repeat center center;
+  background-size: cover; /* Ensures the image covers the entire container */
+  /* --- End of Changes --- */
+
   overflow: clip;
   isolation: isolate;
   container-type: inline-size;
   overflow-x: clip;
 
   min-height: 100svh; /* Make hero take full screen height */
-  display: flex;          /* Use flexbox for vertical alignment */
+  display: flex;
   flex-direction: column;
-}
-
-/* Decorative BG intentionally hidden (solid background only) */
-.hero__bg {
-  display: none;
 }
 
 /* Full-width container — headline/eyebrow/CTA live here (left-aligned) */
@@ -41,7 +44,7 @@
   max-width: none;
   margin-inline: 0;
   
-  padding: var(--pad-y) clamp(1.25rem, 7vw, 6rem) var(--pad-y) clamp(2rem, 8vw, 8rem);
+  padding: clamp(8rem, 12vw, 12rem) clamp(1.25rem, 7vw, 6rem) var(--pad-y) clamp(2rem, 8vw, 8rem);
   
   display: grid;
   gap: clamp(1rem, 2vw, 2rem);
@@ -140,7 +143,7 @@
 
 .hero__belt {
   width: 100%;
-  background: var(--hero-bg); /* visually part of the hero */
+  background: transparent;
 }
 
 .hero__belt-inner {

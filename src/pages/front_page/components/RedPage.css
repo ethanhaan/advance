@@ -1,0 +1,6 @@
+.red-page-section {
+  height: 100vh; /* Full screen height */
+  background-color: #c72c2c; /* A solid red color */
+  position: relative; /* Needed for z-index to work */
+  z-index: 2; /* Ensures it renders on top of the sticky hero */
+}
