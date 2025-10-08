@@ -22,9 +22,12 @@
   background: var(--hero-bg);
   overflow: clip;
   isolation: isolate;
-  /* Optional but safe: prevent outside container utilities from constraining width */
   container-type: inline-size;
-  overflow-x: clip; /* safety: prevent tiny rounding from creating a scrollbar */
+  overflow-x: clip;
+
+  min-height: 100svh; /* Make hero take full screen height */
+  display: flex;          /* Use flexbox for vertical alignment */
+  flex-direction: column;
 }
 
 /* Decorative BG intentionally hidden (solid background only) */
@@ -35,12 +38,15 @@
 /* Full-width container — headline/eyebrow/CTA live here (left-aligned) */
 .hero__container {
   width: 100%;
-  max-width: none;                      /* remove width cap */
-  margin-inline: 0;                     /* no centering wrapper */
-  padding: var(--pad-y) clamp(1.25rem, 7vw, 6rem);
+  max-width: none;
+  margin-inline: 0;
+  
+  padding: var(--pad-y) clamp(1.25rem, 7vw, 6rem) var(--pad-y) clamp(2rem, 8vw, 8rem);
+  
   display: grid;
   gap: clamp(1rem, 2vw, 2rem);
   text-align: left;
+  
 }
 
 /* Content block */
@@ -138,7 +144,7 @@
 }
 
 .hero__belt-inner {
-  max-width: var(--max-w, 1200px);
+  /* max-width: var(--max-w, 1200px); */
   margin-inline: auto;
   padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1.25rem, 4vw, 2rem); /* symmetric L/R */
 }
@@ -150,7 +156,7 @@
   padding: 0;
   display: grid;
   grid-template-columns: 1fr 1fr;  /* 2-up mobile */
-  gap: 1rem 2rem;
+  gap: 1rem 4rem; /* CHANGED: Increased horizontal gap */
   justify-items: center;            /* keep each item left-aligned */
   text-align: left;                /* left-align text within each cell */
 }
@@ -191,9 +197,10 @@
 
 /* Divider: centered to match belt inner width */
 .hero__stats-divider {
-  margin-top: clamp(1.25rem, 3.5vw, 2.25rem);
+  /* MODIFIED: Combined top margin with 'auto' for left/right to center it */
+  margin: clamp(1.25rem, 3.5vw, 2.25rem) auto 0;
   height: 1px;
-  background: var(--divider);
-  width: 100%;           /* align with .hero__belt-inner content width */
+  /* MODIFIED: Increased opacity from 0.12 to 0.25 to make it more visible */
+  background: rgba(255, 255, 255, 0.25);
+  width: 90%;
 }
-

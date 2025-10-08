@@ -2,12 +2,12 @@ import React from 'react';
 import Timeline from './components/timeline';
 import CircularCarousel from './components/circular-carousel';
 import Hero from './components/hero';
+import Navbar from '../../global_components/Navbar/Navbar';
 
 export default function frontpage () {
   return (
-    <div style={{
-      width: "100vw"
-    }}>
+    <div>
+      <Navbar />
       <Hero />
       <CircularCarousel />
       <Timeline />
