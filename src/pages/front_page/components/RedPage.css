@@ -1,6 +1,75 @@
+/* Import "Poly" font for the title */
+@import url('https://fonts.googleapis.com/css2?family=Poly&display=swap');
+/* Keep Montserrat for the paragraph text */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap');
+
 .red-page-section {
-  height: 100vh; /* Full screen height */
-  background-color: #c72c2c; /* A solid red color */
-  position: relative; /* Needed for z-index to work */
-  z-index: 2; /* Ensures it renders on top of the sticky hero */
+  height: 100vh;
+  background-color: #000000;
+  position: relative;
+  z-index: 2;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  
+  /* --- Positioning Change --- */
+  /* Align content to the bottom */
+  align-items: flex-end; 
+  /* Add padding to lift it off the absolute bottom */
+  padding-bottom: 8vh; 
+  box-sizing: border-box; /* Ensures padding is included in the height */
+  /* --- End of Change --- */
+}
+
+/* New content wrapper */
+.red-page-content {
+  max-width: 800px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem; /* Space between title, text, and button */
+}
+
+/* Title styling */
+.red-page-title {
+  /* --- Font Change --- */
+  font-family: 'Poly', serif;
+  /* --- End of Change --- */
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 400;
+  margin: 0;
+}
+
+/* Description styling */
+.red-page-description {
+  /* --- Font Change (Confirmed) --- */
+  font-family: 'Montserrat', sans-serif;
+  /* --- End of Change --- */
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 750px;
+  margin: 0;
+}
+
+/* Button styling (matches navbar button) */
+.red-page-cta {
+  background-color: #ffffff;
+  color: #000000;
+  border: 1px solid #ffffff;
+  border-radius: 6px;
+  padding: 0.5rem 1.75rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: 'Montserrat', sans-serif;
+  margin-top: 1rem; /* Extra space above the button */
+}
+
+.red-page-cta:hover {
+  background-color: transparent;
+  color: #ffffff;
 }
