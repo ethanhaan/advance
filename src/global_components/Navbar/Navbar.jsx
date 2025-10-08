@@ -2,9 +2,12 @@ import React from 'react';
 import './Navbar.css';
 import advanceLogo from '../../assets/advance.svg';
 
-export default function Navbar() {
+export default function Navbar({ isFixed }) {
+  // Conditionally add the 'fixed-nav' class based on the isFixed prop
+  const navbarClasses = `navbar-header ${isFixed ? 'fixed-nav' : ''}`;
+
   return (
-    <header className="navbar-header">
+    <header className={navbarClasses}>
       <nav className="navbar">
         <a href="/" className="navbar-logo">
           <img src={advanceLogo} alt="Advance Careers Logo" className="navbar-logo-img" />

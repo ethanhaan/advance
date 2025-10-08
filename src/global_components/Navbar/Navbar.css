@@ -84,3 +84,22 @@
   background-color: transparent;
   color: #ffffff;
 }
+
+/* --- Styles for Fixed Navbar --- */
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.navbar-header.fixed-nav {
+  position: fixed;
+  transform: translateY(-100%); /* Start hidden above the viewport */
+  animation: slideDown 0.5s ease-out forwards;
+  
+  /* Make background slightly more opaque when fixed */
+  background: rgba(11, 15, 20, 0.8);
+}
