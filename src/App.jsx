@@ -11,7 +11,7 @@ import './App.css'
 function App() {
 
   const [isNavbarScrolled, setIsNavbarScrolled] = useState(false);
-  const [isNavBarFixed, setIsNavBarFixed] = useState(false);
+  const [isNavbarFixed, setIsNavbarFixed] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
