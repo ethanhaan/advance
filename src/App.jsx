@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Routes, Route } from 'react-router-dom';
 import Navbar from './global_components/Navbar/Navbar';
 import FrontPage from './pages/front_page/front_page';
 import AboutPage from './pages/about_page/about_page';
