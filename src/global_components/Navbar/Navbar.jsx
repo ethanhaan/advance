@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import './Navbar.css';
 import advanceLogo from '../../assets/advance.svg';
 
-export default function Navbar({ isFixed }) {
-  // Conditionally add the 'fixed-nav' class based on the isFixed prop
-  const navbarClasses = `navbar-header ${isFixed ? 'fixed-nav' : ''}`;
+export default function Navbar({ isScrolled }) {
+  // Conditionally add the 'scrolled' class based on the isScrolled prop
+  const navbarClasses = `navbar-header ${isScrolled ? 'scrolled' : ''}`;
 
   return (
     <header className={navbarClasses}>
