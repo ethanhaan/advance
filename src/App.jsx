@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import Navbar from './global_components/Navbar/Navbar';
 import FrontPage from './pages/front_page/front_page';
+import AboutPage from './pages/about_page/about_page';
+import TestPage from './pages/test_page/test_page';
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -12,7 +14,11 @@ function App() {
   return (
     <div>
       <Navbar isFixed={isNavbarFixed} />
-      <FrontPage setIsNavbarFixed={setIsNavbarFixed}/>
+      <Routes>
+        <Route path="/" element={<FrontPage setIsNavbarFixed={setIsNavbarFixed} />} />
+        <Route path="/about" element={<AboutPage setIsNavbarFixed={setIsNavbarFixed} />} />
+        <Route path="/test" element={<TestPage/>} />
+      </Routes>
     </div>
   )
 }

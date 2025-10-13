@@ -6,7 +6,7 @@ import Informational from './components/informational';
 import RedPage from './components/RedPage';
 import './front_page.css';
 
-export default function Frontpage({setIsNavbarFixed}) {
+export default function Frontpage({ setIsNavbarFixed }) {
   const stickyContainerRef = useRef(null);
 
   useEffect(() => {
