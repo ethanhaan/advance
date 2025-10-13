@@ -1,0 +1,4 @@
+hero-sticky-container {
+  height: 200vh; /* 100vh for Hero + 100vh for RedPage */
+  position: relative;
+}

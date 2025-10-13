@@ -72,7 +72,7 @@
   color: #000000;
   border: 1px solid #ffffff;
   border-radius: 6px;
-  padding: 0.6rem 1.5rem; /* 10px 24px */
+  padding: 0.4rem 1.5rem; /* 10px 24px */
   font-size: 1rem; /* 16px */
   font-weight: 500;
   cursor: pointer;
@@ -83,4 +83,23 @@
 .navbar-contact-btn:hover {
   background-color: transparent;
   color: #ffffff;
+}
+
+/* --- Styles for Fixed Navbar --- */
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.navbar-header.fixed-nav {
+  position: fixed;
+  transform: translateY(-100%); /* Start hidden above the viewport */
+  animation: slideDown 0.5s ease-out forwards;
+  
+  /* Make background slightly more opaque when fixed */
+  background: rgba(11, 15, 20, 0.8);
 }

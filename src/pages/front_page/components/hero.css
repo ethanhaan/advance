@@ -4,7 +4,6 @@
 
 :root {
   /* Colors */
-  --hero-bg: #0b0f14; /* solid near-black */
   --text-main: #ffffff;
   --text-muted: #a0a0a0; /* for general muted copy if needed */
   --eyebrow: #dadada;    /* soft gray-white for eyebrow */
@@ -12,27 +11,34 @@
 
   /* Layout */
   --max-w: 1200px;              /* used for belt inner */
-  --pad-y: clamp(4rem, 8vw, 8rem);
+  /* --pad-y: clamp(4rem, 8vw, 8rem); */
+  --pad-y: clamp(2rem, 6vw, 6rem);
 }
 
 /* Root wrapper */
 .hero {
-  position: relative;
+  position: sticky; /* Make the hero stick to the top */
+  top: 0;
+
   color: var(--text-main);
-  background: var(--hero-bg);
+  
+  /* --- Background Image Changes --- */
+  background: 
+    /* Dark overlay for text readability */
+    linear-gradient(rgba(11, 15, 20, 0.6), rgba(11, 15, 20, 0.6)),
+    /* Your background image */
+    url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop') no-repeat center center;
+  background-size: cover; /* Ensures the image covers the entire container */
+  /* --- End of Changes --- */
+
   overflow: clip;
   isolation: isolate;
   container-type: inline-size;
   overflow-x: clip;
 
   min-height: 100svh; /* Make hero take full screen height */
-  display: flex;          /* Use flexbox for vertical alignment */
+  display: flex;
   flex-direction: column;
-}
-
-/* Decorative BG intentionally hidden (solid background only) */
-.hero__bg {
-  display: none;
 }
 
 /* Full-width container — headline/eyebrow/CTA live here (left-aligned) */
@@ -41,12 +47,11 @@
   max-width: none;
   margin-inline: 0;
   
-  padding: var(--pad-y) clamp(1.25rem, 7vw, 6rem) var(--pad-y) clamp(2rem, 8vw, 8rem);
+  padding: clamp(9rem, 15vw, 15rem) clamp(1.25rem, 7vw, 6rem) var(--pad-y) clamp(2rem, 8vw, 8rem);
   
   display: grid;
   gap: clamp(1rem, 2vw, 2rem);
   text-align: left;
-  
 }
 
 /* Content block */
@@ -140,29 +145,33 @@
 
 .hero__belt {
   width: 100%;
-  background: var(--hero-bg); /* visually part of the hero */
+  background: transparent;
 }
 
 .hero__belt-inner {
   /* max-width: var(--max-w, 1200px); */
   margin-inline: auto;
-  padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1.25rem, 4vw, 2rem); /* symmetric L/R */
+  padding: clamp(0.5rem, 2.5vw, 1rem) clamp(1.25rem, 4vw, 2rem);
 }
 
 /* Stats: centered wrapper, but stat content stays left-aligned */
 .hero__stats {
   list-style: none;
-  margin: 0;            /* spacing handled by belt-inner padding */
+  margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: 1fr 1fr;  /* 2-up mobile */
-  gap: 1rem 4rem; /* CHANGED: Increased horizontal gap */
-  justify-items: center;            /* keep each item left-aligned */
-  text-align: left;                /* left-align text within each cell */
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 10rem;
+  /* This will center the entire grid, not just the text inside the cells */
+  justify-content: center; 
+  text-align: left;
 }
+
+/* In the media query for .hero__stats */
 @media (min-width: 768px) {
   .hero__stats {
-    grid-template-columns: repeat(4, 1fr); /* 4-up desktop */
+    /* "auto" makes each column only as wide as its content */
+    grid-template-columns: repeat(4, auto);
   }
 }
 
