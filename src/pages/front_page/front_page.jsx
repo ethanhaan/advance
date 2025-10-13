@@ -3,13 +3,14 @@ import Timeline from './components/timeline';
 import CircularCarousel from './components/circular-carousel';
 import Hero from './components/hero';
 import Navbar from '../../global_components/Navbar/Navbar';
+import Informational from './components/informational';
 
 export default function frontpage () {
   return (
     <div>
       <Navbar />
       <Hero />
-      <CircularCarousel />
+      <Informational/>
       <Timeline />
     </div>
   )
