@@ -53,7 +53,7 @@ export default () => {
     <div
       style={{
         width: "100vw",
-        height: "100vh",
+        height: "60vh",
         position: "relative",
         backgroundImage: `url(${canterburyworkshopimg})`,
         backgroundSize: "cover",
