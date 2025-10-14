@@ -1,23 +1,25 @@
-/* src/global_components/Navbar/Navbar.css */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap');
-
 .navbar-header {
-  /* --- Translucency Changes --- */
+  /* Shared look */
   background: rgba(11, 15, 20, 0.3); /* Semi-transparent background */
   backdrop-filter: blur(8px); /* Frosted glass effect */
   -webkit-backdrop-filter: blur(8px); /* For Safari support */
   border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Subtle bottom border */
-  /* --- End of Changes --- */
 
   color: #ffffff;
   width: 100%;
-  position: absolute;
+  position: absolute; /* default = tethered */
   top: 0;
   left: 0;
-  z-index: 1000;
+  z-index: 5; /* Low enough to sit above Hero but below RedPage */
   padding: 1rem 2rem;
   box-sizing: border-box;
   font-family: 'Montserrat', sans-serif;
+}
+
+.navbar-header.tethered-nav {
+  /* Explicitly document tethered state; inherits shared styles above */
+  position: absolute;
+  z-index: 5;
 }
 
 .navbar {
@@ -85,7 +87,7 @@
   color: #ffffff;
 }
 
-/* --- Styles for Fixed Navbar --- */
+/* --- Styles for Fixed Navbar (sticky mode) --- */
 @keyframes slideDown {
   from {
     transform: translateY(-100%);
@@ -97,9 +99,12 @@
 
 .navbar-header.fixed-nav {
   position: fixed;
+  top: 0;
+  left: 0;
   transform: translateY(-100%); /* Start hidden above the viewport */
   animation: slideDown 0.5s ease-out forwards;
-  
+
+  z-index: 1000; /* Above all page content */
   /* Make background slightly more opaque when fixed */
   background: rgba(11, 15, 20, 0.8);
 }
