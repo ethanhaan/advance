@@ -72,5 +72,6 @@
 .red-page-cta:hover {
   background-color: transparent;
   color: #ffffff;
+  border: 1px solid #ffffff;
 }
 
