@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import workshopimg from '../assets/hero_image.png';
 
 /**
  * Hero component (reference-matched)
@@ -77,8 +78,7 @@ export default function Hero({ style }) {
     position: "sticky",
     top: 0,
     color: COLORS.textMain,
-    backgroundImage:
-      'linear-gradient(rgba(11, 15, 20, 0.6), rgba(11, 15, 20, 0.6)), url("https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop")',
+    backgroundImage: `url(${workshopimg})`,
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center center",
     backgroundSize: "cover",
