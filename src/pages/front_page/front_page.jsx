@@ -17,7 +17,7 @@ export default function Frontpage({ setIsNavbarFixed }) {
         if (window.scrollY > containerBottom) {
           setIsNavbarFixed(true);
         } else {
-          setIsNavbarFixed(false);
+          setIsNavbarFixed(true);
         }
       }
     };

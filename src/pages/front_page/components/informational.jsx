@@ -1,76 +1,55 @@
-import { useState, useEffect } from 'react';
+import './Informational.css';
+import { useState } from 'react';
 
-// --- Import all the school logos from the path you provided ---
 import bonnriggLogo from '../assets/school_logos/bonnrigg.png';
 import homebushboysLogo from '../assets/school_logos/homebushboys.png';
 import huntershillLogo from '../assets/school_logos/huntershill.jpg';
 import paramattaLogo from '../assets/school_logos/paramatta.jpeg';
 import sydneytechLogo from '../assets/school_logos/sydneytech.jpeg';
 
-// --- Here is the new Logos component ---
-const Logos = () => {
-  // --- Group all imported logos into an array for easier management ---
-  const allLogoSets = [
-    // You can create multiple sets if you have more logos
-    [bonnriggLogo, homebushboysLogo, huntershillLogo, paramattaLogo, sydneytechLogo],
-    [huntershillLogo, paramattaLogo, sydneytechLogo],
-  ];
-
-  const [currentSetIndex, setCurrentSetIndex] = useState(0);
-  const [opacity, setOpacity] = useState(1);
-
-  useEffect(() => {
-    if (allLogoSets.length <= 1) return; // Don't start the animation if there's only one set
-
-    const intervalId = setInterval(() => {
-      // 1. Start fading out
-      setOpacity(0);
-
-      // 2. After the fade-out transition is complete (500ms), swap the logos
-      setTimeout(() => {
-        setCurrentSetIndex(prevIndex => (prevIndex + 1) % allLogoSets.length);
-        // 3. Start fading in the new logos
-        setOpacity(1);
-      }, 500); // This duration must match the CSS transition duration
-
-    }, 2000); // Change logos every 4 seconds
-
-    // Cleanup function to stop the interval when the component unmounts
-    return () => clearInterval(intervalId);
-  }, []); // The empty array [] means this effect runs only once on mount
+const ImageCycler = ({ images, phase = 0 }) => {
+  const [idx, setIdx] = useState(0);
 
   return (
-    <div style={{
-      display: 'flex',
-      justifyContent: 'space-around',
-      alignItems: 'center',
-      flexWrap: 'wrap',
-      gap: '40px',
-      width: '100%',
-      padding: '40px 0',
-      transition: 'opacity 0.5s ease-in-out', // The fade animation
-      opacity: opacity, // Controlled by state
-    }}>
-      {allLogoSets[currentSetIndex].map((logoSrc, index) => (
-        <img
-          key={index}
-          src={logoSrc}
-          alt={`School logo ${index + 1}`}
-          style={{
-            height: '55px', // Sets a uniform height for all logos
-            width: 'auto',   // Allows width to adjust to maintain aspect ratio
-            objectFit: 'contain',
-            filter: 'grayscale(100%)', // Makes them uniform
-            opacity: 0.8,
-          }}
-        />
-      ))}
+    <div
+      className="logo-block"
+      style={{ animationDelay: `${phase}s` }}
+      onAnimationIteration={() => {
+        // advance to next image every full animation cycle (keeps same timing as CSS)
+        setIdx((i) => (i + 1) % images.length);
+      }}
+    >
+      <img
+        src={images[idx]}
+        alt={`School logo ${idx + 1}`}
+        className="logo-image"
+      />
     </div>
   );
 };
 
-export default () => {
+const Logos = () => {
+  const logoSetOne = [bonnriggLogo, homebushboysLogo, huntershillLogo, paramattaLogo, sydneytechLogo];
+  const logoSetTwo = [paramattaLogo, sydneytechLogo, bonnriggLogo, huntershillLogo, homebushboysLogo];
 
+  // Build distinct arrays per tile: each tile cycles through its own list (pairing column-wise)
+  const tiles = logoSetOne.map((img1, i) => [img1, logoSetTwo[i]]);
+
+  // Predefined, non-sequential phase offsets (negative = start mid-cycle) to desynchronize switches
+  const PHASES = [-2.0, -0.5, -1.7, -3.1, -1.1];
+
+  return (
+    <>
+      <div className="logos-container">
+        {tiles.map((imgs, i) => (
+          <ImageCycler key={`tile-${i}`} images={imgs} phase={PHASES[i % PHASES.length]} />
+        ))}
+      </div>
+    </>
+  );
+};
+
+export default () => {
   return (
     <div style={{
       width: "100%",
@@ -78,15 +57,18 @@ export default () => {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
+      overflow: "hidden"
     }}>
       <div style={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         textAlign: "center",
-        padding: "40px 20px",
+        padding: "40px 20px 0 20px",
         backgroundColor: "#fff",
-        width: "clamp(50%, 900px, 90%)"
+        width: "clamp(50%, 900px, 90%)",
+        minHeight: "350px",
+        position: "relative"
       }}>
         <p style={{
           fontFamily: "Poly",
@@ -116,14 +98,24 @@ export default () => {
         }}>
           From workshops delivered to careers launched, see how Advance Careers is making a measurable difference in the lives of young Australians. Join us in celebrating our achievements and learn how you can help drive further success.
         </p>
-        <Logos />
+        <div style={{
+            position: "relative",
+            width: "100%",
+            height: "150px",
+            marginTop: "40px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center"
+        }}>
+            <Logos />
+        </div>
       </div>
       <div style={{
         width: "100%",
         backgroundColor: "white",
         display: "flex",
         justifyContent: "center",
-        padding: "80px 0" // Added padding for spacing
+        padding: "80px 0"
       }}>
         <div style={{
           display: "flex",
@@ -134,7 +126,6 @@ export default () => {
           maxWidth: "900px",
           padding: "0 20px",
         }}>
-          {/* Left Column: Text Content */}
           <div style={{
             flex: 1,
             display: "flex",
@@ -185,7 +176,6 @@ export default () => {
             </button>
           </div>
           
-          {/* Right Column: Image */}
           <div style={{
             flex: 1,
           }}>
@@ -200,3 +190,4 @@ export default () => {
     </div>
   ) 
 }
+
