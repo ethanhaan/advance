@@ -23,6 +23,7 @@ export default function Quote() {
     maxWidth: '800px',
     lineHeight: 1.5,
     fontStyle: 'italic',
+    opacity: '70%',
   };
 
   return (
