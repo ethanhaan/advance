@@ -191,7 +191,7 @@ export default function ContactPopup() {
                 display: "flex",
                 alignItems: "center",
                 gap: 14,
-                padding: "20px 22px 12px",
+                padding: "34px 34px 20px",
                 position: "relative",
               }}
               variants={contentStagger}
@@ -203,7 +203,7 @@ export default function ContactPopup() {
                 aria-hidden="true"
                 style={{
                   width: 8,
-                  borderRadius: 4, // was 999
+                  borderRadius: 1, // was 999
                   background: COLORS.blue,
                   alignSelf: "stretch",
                   transformOrigin: "top",
@@ -242,10 +242,10 @@ export default function ContactPopup() {
                 variants={item}
                 style={{
                   position: "absolute",
-                  top: 7,
-                  right: 7,
-                  width: 36,
-                  height: 36,
+                  top: 9,
+                  right: 9,
+                  width: 30,
+                  height: 30,
                   display: "grid",
                   placeItems: "center",
                   background: "transparent",
@@ -267,7 +267,7 @@ export default function ContactPopup() {
             {/* Body */}
             <motion.form
               onSubmit={submit}
-              style={{ padding: "10px 22px 22px" }}
+              style={{ padding: "10px 34px 28px" }}
               variants={contentStagger}
               initial="hidden"
               animate="show"
@@ -376,7 +376,7 @@ export default function ContactPopup() {
                     background: COLORS.blue,
                     color: "#FFFFFF",
                     border: `1px solid ${COLORS.blue}`,
-                    borderRadius: 14, // was 999 (pill)
+                    borderRadius: 5, // was 999 (pill)
                     padding: "10px 18px",
                     fontWeight: 700,
                     cursor: canSend ? "pointer" : "not-allowed",
