@@ -6,6 +6,7 @@ import FrontPage from './pages/front_page/front_page';
 import AboutPage from './pages/about_page/about_page';
 import TestPage from './pages/test_page/test_page';
 import PageTransition from './global_components/PageTransition';
+import ContactPopup from './global_components/ContactPopup';
 import './App.css';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
   return (
     <div style={{backgroundColor: "#060A1B"}}>
       <Navbar isNavbarFixed={isNavbarFixed} isOpaque={isOpaque} />
+      <ContactPopup />
 
       {/* This container lets exit/enter pages overlap */}
       <div style={{ position: 'relative', minHeight: '100svh' }}>
