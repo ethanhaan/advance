@@ -142,6 +142,9 @@ export default function Navbar({ isNavbarFixed = false, isOpaque = true }) {
             e.currentTarget.style.backgroundColor = '#ffffff';
             e.currentTarget.style.color = '#000000';
           }}
+          onClick={() => {
+            window.dispatchEvent(new CustomEvent('open-contact', { detail: { source: 'navbar' } }));
+          }}
         >
           Contact Us
         </button>
