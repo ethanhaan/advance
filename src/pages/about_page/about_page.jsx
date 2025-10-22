@@ -4,17 +4,21 @@ import Values from './components/Values';
 import Testimonial from './components/Testimonial';
 import Timeline from './components/Timeline';
 import CTA from './components/CTA';
-
+import Profiles from "./components/Profiles";
 
 export default function AboutPage() {
+
+
   return (
     <>
       <Hero />
       <Quote />
       <Values />
       <Testimonial />
+      <Profiles />
       <Timeline />
       <CTA />
     </>
   );
 }
+
