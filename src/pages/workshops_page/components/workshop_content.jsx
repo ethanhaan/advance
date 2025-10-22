@@ -37,7 +37,7 @@ export default function WorkshopContent() {
     display: "grid",
     gridTemplateColumns: "1.1fr 0.9fr",
     gap: "clamp(18px, 4vw, 40px)",
-    alignItems: "center", // <— vertical centering of left (titles+text+CTA) with right (cards)
+    alignItems: "center",
   };
 
   // LEFT column container now holds eyebrow + title + paragraph + CTA
@@ -95,14 +95,20 @@ export default function WorkshopContent() {
     gridTemplateColumns: "repeat(2, 1fr)",
     gap: "14px",
   };
-  const card = {
+
+  const cardBase = {
+    position: "relative",
     border: `1px solid ${COLORS.border}`,
     borderRadius: 14,
     padding: "16px",
     background: "#fafafa",
+    overflow: "hidden",
+    cursor: "default",
   };
+
   const cardHead = { display: "flex", alignItems: "center", gap: 10, marginBottom: 4 };
-  const iconWrap = {
+
+  const iconWrapBase = {
     width: 28,
     height: 28,
     borderRadius: 999,
@@ -112,6 +118,7 @@ export default function WorkshopContent() {
     placeItems: "center",
     flex: "0 0 28px",
   };
+
   const cardTitle = {
     fontFamily: "Poly, ui-serif, Georgia, Cambria, Times New Roman, serif",
     fontSize: 18,
@@ -120,7 +127,42 @@ export default function WorkshopContent() {
     fontWeight: 600,
     lineHeight: 1.2,
   };
+
   const cardBody = { margin: "6px 0 0", color: COLORS.textMuted, fontSize: 14, lineHeight: 1.6 };
+
+  // ===== Animations for cards (applies to all four) =====
+  const cardVariants = {
+    rest: {
+      y: 0,
+      scale: 1,
+      boxShadow: "0 2px 10px rgba(0,0,0,0.06)",
+      borderColor: COLORS.border,
+      backgroundColor: "#fafafa",
+      transition: { duration: 0.25, ease: [0.22, 1, 0.36, 1] },
+    },
+    hover: {
+      y: -6,
+      scale: 1.02,
+      boxShadow: "0 16px 32px rgba(0,0,0,0.16)",
+      borderColor: "rgba(27,86,186,0.45)",
+      backgroundColor: "#ffffff",
+      transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] },
+    },
+  };
+
+  const iconVariants = {
+    rest: { scale: 1, rotate: 0, transition: { type: "spring", stiffness: 220, damping: 18 } },
+    hover: { scale: 1.07, rotate: 6, transition: { type: "spring", stiffness: 220, damping: 18 } },
+  };
+
+  const sheenVariants = {
+    rest: { x: "-120%", opacity: 0 },
+    hover: {
+      x: "120%",
+      opacity: 0.35,
+      transition: { duration: 0.6, ease: "easeInOut" },
+    },
+  };
 
   return (
     <section style={sectionStyle} id="workshop-overview" aria-label="Workshop overview">
@@ -163,12 +205,34 @@ export default function WorkshopContent() {
             </motion.button>
           </div>
 
-          {/* RIGHT: feature cards */}
+          {/* RIGHT: feature cards with hover animations */}
           <div style={cardGrid}>
             {features.map((f, i) => (
-              <article key={i} style={card}>
+              <motion.article
+                key={i}
+                style={cardBase}
+                variants={cardVariants}
+                initial="rest"
+                whileHover="hover"
+                animate="rest"
+              >
+                {/* sheen / glint */}
+                <motion.span
+                  variants={sheenVariants}
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    bottom: 0,
+                    left: 0,
+                    width: "35%",
+                    background:
+                      "linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.6), rgba(255,255,255,0))",
+                    pointerEvents: "none",
+                    filter: "blur(2px)",
+                  }}
+                />
                 <div style={cardHead}>
-                  <span style={iconWrap} aria-hidden="true">
+                  <motion.span style={iconWrapBase} variants={iconVariants} aria-hidden="true">
                     <svg
                       width="14"
                       height="14"
@@ -181,11 +245,11 @@ export default function WorkshopContent() {
                     >
                       <path d="M20 6L9 17l-5-5" />
                     </svg>
-                  </span>
+                  </motion.span>
                   <h3 style={cardTitle}>{f.title}</h3>
                 </div>
                 <p style={cardBody}>{f.body}</p>
-              </article>
+              </motion.article>
             ))}
           </div>
         </div>
