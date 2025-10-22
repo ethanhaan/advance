@@ -53,7 +53,7 @@ export default () => {
     <div
       style={{
         width: "100vw",
-        height: "60vh",
+        height: "70vh",
         position: "relative",
         backgroundImage: `url(${canterburyworkshopimg})`,
         backgroundSize: "cover",
@@ -63,7 +63,6 @@ export default () => {
         justifyContent: "center",
       }}
     >
-      {/* Content overlay (no dark overlay per your instruction) */}
       <div
         style={{
           inset: 0,
@@ -87,7 +86,7 @@ export default () => {
             margin: 0,
           }}
         >
-          <SwipeReveal delay={0.05}><span style={{fontFamily: "Poly"}}>About</span></SwipeReveal>
+          <SwipeReveal delay={0.05}><span style={{fontFamily: "Poly"}}>Our Programs</span></SwipeReveal>
         </div>
 
         {/* Paragraph with accent bar: Montserrat */}
@@ -97,6 +96,7 @@ export default () => {
             alignItems: "stretch",
             gap: "18px",
             marginTop: "28px",
+            marginBottom: "80px",
             maxWidth: "980px",
           }}
         >

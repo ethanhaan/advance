@@ -21,7 +21,6 @@ function App() {
     <div style={{backgroundColor: "#060A1B"}}>
       <Navbar isNavbarFixed={isNavbarFixed} isOpaque={isOpaque} />
       <ContactPopup />
-
       {/* This container lets exit/enter pages overlap */}
       <div style={{ position: 'relative', minHeight: '100svh' }}>
         <AnimatePresence
@@ -42,7 +41,7 @@ function App() {
               path="/about"
               element={
                 <PageTransition>
-                  <AboutPage setIsNavbarFixed={setIsNavbarFixed} />
+                  <AboutPage setIsNavbarFixed={setIsNavbarFixed} setIsOpaque={setIsOpaque}/>
                 </PageTransition>
               }
             />

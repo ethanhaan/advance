@@ -59,14 +59,14 @@ export default function Navbar({ isNavbarFixed = false, isOpaque = true }) {
         color: '#ffffff',
         fontFamily:
           'Montserrat, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif',
-        background: `rgba(11, 15, 20, ${isOpaque ? 0.8 : 0})`,
+        background: isOpaque ? '#060A1B' : 'rgba(6, 10, 27, 0)',
         borderBottom: isOpaque
           ? '1px solid rgba(255, 255, 255, 0.1)'
           : '1px solid rgba(255, 255, 255, 0)',
-        backdropFilter: isOpaque ? 'blur(8px)' : 'none',
-        WebkitBackdropFilter: isOpaque ? 'blur(8px)' : 'none',
+        backdropFilter: 'none',
+        WebkitBackdropFilter: 'none',
         transition:
-          'background 200ms ease, border-color 200ms ease, backdrop-filter 200ms ease',
+          'background 200ms ease, border-color 200ms ease',
       }}
     >
       <nav
@@ -152,4 +152,3 @@ export default function Navbar({ isNavbarFixed = false, isOpaque = true }) {
     </header>
   );
 }
-

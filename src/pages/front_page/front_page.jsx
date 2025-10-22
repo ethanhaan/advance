@@ -4,6 +4,7 @@ import CircularCarousel from './components/circular-carousel';
 import Hero from './components/hero';
 import Informational from './components/informational';
 import RedPage from './components/RedPage';
+import CTA from '../../global_components/CTA/CTA';
 import { useOnHitTop } from '../../global_components/utils.js';
 import './front_page.css';
 
@@ -28,6 +29,7 @@ export default function Frontpage({setIsNavbarFixed, setIsOpaque}) {
       <div ref={ref}>
         <Informational />
         <Timeline />
+        <CTA />
       </div>
     </div>
   );
