@@ -65,7 +65,7 @@ export default function WorkshopContent() {
     position: "absolute",
     left: "-20px",
     top: 120, // aligns with first line of paragraph under the title
-    bottom: 85,
+    bottom: 75,
     width: 8,
     background: COLORS.blue,
     borderRadius: 2,
@@ -86,7 +86,7 @@ export default function WorkshopContent() {
     padding: "10px 18px",
     fontWeight: 700,
     cursor: "pointer",
-    marginTop: 45,
+    marginTop: 35,
   };
 
   // RIGHT column: four cards

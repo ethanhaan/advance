@@ -32,7 +32,7 @@ export default function WorkshopsCarousel({
     <section
       style={{
         background: "#ffffff",
-        padding: "64px 0 92px",
+        padding: "96px 0 70px",
         borderTop: "1px solid #e5e7eb",
       }}
     >
