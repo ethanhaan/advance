@@ -7,6 +7,7 @@ import AboutPage from './pages/about_page/about_page';
 import TestPage from './pages/test_page/test_page';
 import PageTransition from './global_components/PageTransition';
 import ContactPopup from './global_components/ContactPopup';
+import WorkshopsPage from './pages/workshops_page/workshops_page';
 import './App.css';
 
 function App() {
@@ -50,6 +51,14 @@ function App() {
               element={
                 <PageTransition>
                   <TestPage />
+                </PageTransition>
+              }
+            />
+            <Route
+              path="/programs"
+              element={
+                <PageTransition>
+                  <WorkshopsPage setIsNavbarFixed={setIsNavbarFixed} />
                 </PageTransition>
               }
             />
