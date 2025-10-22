@@ -149,7 +149,7 @@ export default function WorkshopsCarousel({
             if (!src) return null;
             const pos = relIndex(i);
             const abspos = Math.abs(pos);
-            const translatePercent = pos * (abspos === 1 ? 38 : 52); // was 52 for all
+            const translatePercent = pos * (abspos === 1 ? 30 : 52); // was 52 for all
             const scale = pos === 0 ? 1 : 0.9;
 
             return (

@@ -1,5 +1,6 @@
 // ./src/pages/workshops_page/components/workshop_content.jsx
 import React from "react";
+import { motion } from "framer-motion";
 
 export default function WorkshopContent() {
   const COLORS = {
@@ -11,32 +12,16 @@ export default function WorkshopContent() {
   };
 
   const features = [
-    {
-      title: "Master Proven Techniques",
-      body:
-        "Learn and apply methods like Active Recall and Spaced Repetition for long-term memory retention.",
-    },
-    {
-      title: "Boost Productivity",
-      body:
-        "Implement time-management systems like the Pomodoro Technique to reduce procrastination and increase focus.",
-    },
-    {
-      title: "Reduce Exam Stress",
-      body:
-        "Use effective note-taking, spaced reviews, and exam frameworks to build confidence and lower anxiety.",
-    },
-    {
-      title: "Personalized Action Plan",
-      body:
-        "Leave with a tailored study plan that fits individual learning styles, subjects, and weekly schedules.",
-    },
+    { title: "Master Proven Techniques", body: "Learn and apply methods like Active Recall and Spaced Repetition for long-term memory retention." },
+    { title: "Boost Productivity", body: "Implement time-management systems like the Pomodoro Technique to reduce procrastination and increase focus." },
+    { title: "Reduce Exam Stress", body: "Use effective note-taking, spaced reviews, and exam frameworks to build confidence and lower anxiety." },
+    { title: "Personalised Action Plan", body: "Leave with a tailored study plan that fits individual learning styles, subjects, and weekly schedules." },
   ];
 
   const sectionStyle = {
     backgroundColor: "#ffffff",
     borderTop: `1px solid ${COLORS.border}`,
-    padding: "clamp(56px, 8vw, 84px) 0",
+    padding: "clamp(64px, 10vw, 112px) 0",
     fontFamily:
       'Montserrat, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif',
   };
@@ -47,12 +32,23 @@ export default function WorkshopContent() {
     padding: "0 clamp(24px, 5vw, 40px)",
   };
 
+  // Grid row with two columns; center both columns vertically
+  const rowStyle = {
+    display: "grid",
+    gridTemplateColumns: "1.1fr 0.9fr",
+    gap: "clamp(18px, 4vw, 40px)",
+    alignItems: "center", // <— vertical centering of left (titles+text+CTA) with right (cards)
+  };
+
+  // LEFT column container now holds eyebrow + title + paragraph + CTA
+  const leftCol = { position: "relative", paddingLeft: 0, maxWidth: 720 };
+
   const eyebrowStyle = {
     fontFamily: "Poly, ui-serif, Georgia, Cambria, Times New Roman, serif",
     color: COLORS.blue,
     fontSize: 16,
     fontWeight: 700,
-    margin: 0,
+    margin: "0 0 6px 0",
   };
 
   const h2Style = {
@@ -61,29 +57,15 @@ export default function WorkshopContent() {
     fontSize: "clamp(28px, 4vw, 40px)",
     color: COLORS.textMain,
     lineHeight: 1.2,
-    margin: "10px 0 16px",
+    margin: "0 0 40px 0",
   };
 
-  // Two-column row: vertically center both sides
-  const leadRow = {
-    display: "grid",
-    gridTemplateColumns: "1.1fr 0.9fr",
-    gap: "clamp(18px, 4vw, 48px)",
-    alignItems: "center", // center-align left & right content vertically
-  };
-
-  // Left paragraph block: keep text perfectly aligned with the title start.
-  const leadParaWrap = {
-    position: "relative", // anchor for the blue bar
-    paddingLeft: 0,       // no indent — aligns with the title above
-  };
-
-  // Blue accent bar that sits *outside* the paragraph without shifting text.
+  // Blue accent bar that sits outside the paragraph
   const blueBar = {
     position: "absolute",
-    left: "-24px", // place bar just outside the left edge so text alignment remains
-    top: 2,
-    bottom: 2,
+    left: "-20px",
+    top: 120, // aligns with first line of paragraph under the title
+    bottom: 85,
     width: 8,
     background: COLORS.blue,
     borderRadius: 2,
@@ -93,29 +75,33 @@ export default function WorkshopContent() {
     margin: 0,
     color: COLORS.textMuted,
     fontSize: 16,
-    lineHeight: 1.7,
+    lineHeight: 1.6,
   };
 
+  const ctaBtn = {
+    background: COLORS.blue,
+    color: "#fff",
+    border: `1px solid ${COLORS.blue}`,
+    borderRadius: 6,
+    padding: "10px 18px",
+    fontWeight: 700,
+    cursor: "pointer",
+    marginTop: 45,
+  };
+
+  // RIGHT column: four cards
   const cardGrid = {
     display: "grid",
     gridTemplateColumns: "repeat(2, 1fr)",
-    gap: "16px",
+    gap: "14px",
   };
-
   const card = {
     border: `1px solid ${COLORS.border}`,
     borderRadius: 14,
-    padding: "18px 18px",
+    padding: "16px",
     background: "#fafafa",
   };
-
-  const cardHead = {
-    display: "flex",
-    alignItems: "center",
-    gap: 10,
-    marginBottom: 6,
-  };
-
+  const cardHead = { display: "flex", alignItems: "center", gap: 10, marginBottom: 4 };
   const iconWrap = {
     width: 28,
     height: 28,
@@ -126,7 +112,6 @@ export default function WorkshopContent() {
     placeItems: "center",
     flex: "0 0 28px",
   };
-
   const cardTitle = {
     fontFamily: "Poly, ui-serif, Georgia, Cambria, Times New Roman, serif",
     fontSize: 18,
@@ -135,40 +120,17 @@ export default function WorkshopContent() {
     fontWeight: 600,
     lineHeight: 1.2,
   };
-
-  const cardBody = {
-    margin: "8px 0 0",
-    color: COLORS.textMuted,
-    fontSize: 14,
-    lineHeight: 1.7,
-  };
-
-  const ctaRow = {
-    display: "flex",
-    gap: 12,
-    alignItems: "center",
-    marginTop: "28px",
-  };
-
-  const primaryBtn = {
-    background: COLORS.blue,
-    color: "#fff",
-    border: `1px solid ${COLORS.blue}`,
-    borderRadius: 6,
-    padding: "10px 18px",
-    fontWeight: 700,
-    cursor: "pointer",
-  };
+  const cardBody = { margin: "6px 0 0", color: COLORS.textMuted, fontSize: 14, lineHeight: 1.6 };
 
   return (
     <section style={sectionStyle} id="workshop-overview" aria-label="Workshop overview">
       <div style={containerStyle}>
-        <p style={eyebrowStyle}>Our Workshops</p>
-        <h2 style={h2Style}>Workshop Overview</h2>
+        <div style={rowStyle}>
+          {/* LEFT: eyebrow + title + paragraph + CTA */}
+          <div style={leftCol}>
+            <p style={eyebrowStyle}>Our Workshops</p>
+            <h2 style={h2Style}>Workshop Overview</h2>
 
-        <div style={leadRow}>
-          {/* Overview text with accent bar — aligned to title */}
-          <div style={leadParaWrap}>
             <div style={blueBar} aria-hidden="true" />
             <p style={leadP}>
               Presented by high-achieving university students who have succeeded through the same
@@ -177,9 +139,31 @@ export default function WorkshopContent() {
               that students can implement immediately to improve learning efficiency, retention,
               and academic performance in a small, interactive group setting.
             </p>
+
+            <motion.button
+              style={ctaBtn}
+              whileHover={{
+                y: -2,
+                filter: "brightness(0.95)",
+                boxShadow: "0 10px 24px rgba(0,0,0,0.12)",
+              }}
+              whileTap={{
+                y: 0,
+                scale: 0.98,
+                boxShadow: "0 6px 16px rgba(0,0,0,0.10)",
+              }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              onClick={() =>
+                window.dispatchEvent(
+                  new CustomEvent("open-contact", { detail: { source: "workshop-content" } })
+                )
+              }
+            >
+              Book a Workshop
+            </motion.button>
           </div>
 
-          {/* Feature cards */}
+          {/* RIGHT: feature cards */}
           <div style={cardGrid}>
             {features.map((f, i) => (
               <article key={i} style={card}>
@@ -205,28 +189,12 @@ export default function WorkshopContent() {
             ))}
           </div>
         </div>
-
-        {/* Primary CTA only */}
-        <div style={ctaRow}>
-          <button
-            style={primaryBtn}
-            onClick={() =>
-              window.dispatchEvent(
-                new CustomEvent("open-contact", { detail: { source: "workshop-content" } })
-              )
-            }
-          >
-            Book a Workshop
-          </button>
-        </div>
       </div>
 
-      {/* Small, inline responsive CSS (no external file) */}
       <style>{`
         @media (max-width: 900px) {
-          #workshop-overview .cards {
-            grid-template-columns: 1fr !important;
-          }
+          #workshop-overview article { padding: 14px; }
+          #workshop-overview .cards { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </section>
