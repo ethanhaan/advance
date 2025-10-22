@@ -123,9 +123,8 @@ export default () => {
               whiteSpace: "pre-line",
             }}
           >
-            <SwipeReveal delay={0.2}>{`Echo believes in a more empowered Australia, where every young person
-understands the economic forces shaping their lives and has the tools to
-shape them back.`}</SwipeReveal>
+            <SwipeReveal delay={0.2}>{`Advance Careers was founded to address the challenges faced by 
+Australian youth struggling to navigate their post‐high school life and career paths. `}</SwipeReveal>
           </div>
         </div>
       </div>
