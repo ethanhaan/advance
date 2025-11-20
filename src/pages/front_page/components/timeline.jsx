@@ -1,7 +1,7 @@
 // src/components/Timeline.jsx
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import TimelineItem from './TimelineItem';
-import './Timeline.css';
+import TimelineItem from './timelineitem';
+import './timeline.css';
 
 const timelineData = [
   { date: 'August 21, 2024', title: 'Career Panel Event',

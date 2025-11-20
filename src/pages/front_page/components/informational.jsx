@@ -1,4 +1,4 @@
-import './Informational.css';
+import './informational.css';
 import { useState } from 'react';
 
 import bonnriggLogo from '../assets/school_logos/bonnrigg.png';

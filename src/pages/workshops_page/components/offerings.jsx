@@ -235,23 +235,25 @@ const ProgramCard = ({
   isActive = false,
   onClick,
 }) => {
-  // per-card professional shadow
-  const baseShadow = "0 8px 18px rgba(15, 23, 42, 0.12), 0 1px 4px rgba(15, 23, 42, 0.06)";
+  // Base drop shadow (2 layers)
+  const baseLayers = "0 8px 18px rgba(15, 23, 42, 0.12), 0 1px 4px rgba(15, 23, 42, 0.06)";
+  
+  // For smooth interpolation, both states must have 3 layers.
+  // Inactive: 3rd layer is 0px spread, transparent color.
+  const shadowRest = `${baseLayers}, 0 0 0 0px transparent`;
+  // Active: 3rd layer is 2px spread, blue color.
+  const shadowActive = `${baseLayers}, 0 0 0 2px #1B56BA`;
 
   const cardStyle = {
     display: "flex",
     alignItems: "center",
     borderRadius: "24px",
     backgroundColor: "#FFFFFF",
-    boxShadow: isActive
-      ? `${baseShadow}, 0 0 0 2px #1B56BA`
-      : 'none',
     width: "100%",
     height: "220px",
     cursor: "pointer",
     boxSizing: "border-box",
     border: "none",
-    transition: "box-shadow 180ms ease, transform 180ms ease",
   };
 
   const imageContainerStyle = {
@@ -303,13 +305,16 @@ const ProgramCard = ({
   return (
     <motion.div
       style={cardStyle}
-      transition={{ duration: 0.35, type: "spring", bounce: 0.4 }}
+      // Framer Motion animates between these two strings because they now share the same structure
+      animate={{
+        boxShadow: isActive ? shadowActive : shadowRest,
+      }}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      // Hover uses the active shadow structure
       whileHover={{
         y: -4,
         scale: 1.01,
-        boxShadow: `${baseShadow}, 0 0 0 2px ${
-          isActive ? "#1B56BA" : "rgba(148, 163, 184, 0.5)"
-        }`,
+        boxShadow: shadowActive,
       }}
       onClick={onClick}
     >
@@ -367,7 +372,6 @@ export default function OfferingsCarousel({ activeIndex, setActiveIndex }) {
         margin: "0 auto",
         display: "flex",
         alignItems: "center",
-        // ✅ ensure the section itself has **no** shadow
         boxShadow: "none",
         background: "transparent",
       }}
@@ -434,6 +438,9 @@ export default function OfferingsCarousel({ activeIndex, setActiveIndex }) {
       >
         <style>{`.offerings-scroll-container::-webkit-scrollbar { display: none; }`}</style>
 
+        {/* Spacer to prevent left-side shadow clipping on the first item */}
+        <div style={{ width: '1px', flexShrink: 0, scrollSnapAlign: 'start' }} />
+
         {offeringsData.map((offering, i) => (
           <motion.div
             key={offering.title}
@@ -459,4 +466,3 @@ export default function OfferingsCarousel({ activeIndex, setActiveIndex }) {
     </div>
   );
 }
-
