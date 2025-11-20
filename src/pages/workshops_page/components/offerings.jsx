@@ -303,7 +303,7 @@ const ProgramCard = ({
   return (
     <motion.div
       style={cardStyle}
-      transition={{ duration: 0.35, type: "spring", bounce: 0.4 }}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
       whileHover={{
         y: -4,
         scale: 1.01,
@@ -433,6 +433,8 @@ export default function OfferingsCarousel({ activeIndex, setActiveIndex }) {
         }}
       >
         <style>{`.offerings-scroll-container::-webkit-scrollbar { display: none; }`}</style>
+        
+        <div style={{ width: '0px', flexShrink: 0, scrollSnapAlign: 'start' }} />
 
         {offeringsData.map((offering, i) => (
           <motion.div
