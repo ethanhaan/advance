@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import advanceLogo from '../../assets/advance.svg';
+import advanceLogo from '../../assets/advance.png';
 
 function LinkItem({ to, text, currentPath }) {
   const isActive = currentPath === to;

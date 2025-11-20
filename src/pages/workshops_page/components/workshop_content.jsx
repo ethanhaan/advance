@@ -10,50 +10,82 @@ const COLORS = {
   chip: "#eef2ff",
 };
 
-const DEFAULT_LEAD =
-  "Presented by high-achieving university students who have succeeded through the same process, this workshop delivers the study techniques and strategies that helped us thrive in university. We move beyond theory to provide practical, actionable advice that students can implement immediately to improve learning efficiency, retention, and academic performance in a small, interactive group setting.";
+// --- Animation Variants ---
 
-const DEFAULT_FEATURES = [
-  {
-    title: "Master Proven Techniques",
-    body: "Learn and apply methods like Active Recall and Spaced Repetition for long-term memory retention.",
-  },
-  {
-    title: "Boost Productivity",
-    body: "Implement time-management systems like the Pomodoro Technique to reduce procrastination and increase focus.",
-  },
-  {
-    title: "Reduce Exam Stress",
-    body: "Use effective note-taking, spaced reviews, and exam frameworks to build confidence and lower anxiety.",
-  },
-  {
-    title: "Personalised Action Plan",
-    body: "Leave with a tailored study plan that fits individual learning styles, subjects, and weekly schedules.",
-  },
-];
-
-const contentVariants = {
+// The wrapper that controls the exit/enter slide direction
+const wrapperVariants = {
   enter: (direction) => ({
     opacity: 0,
-    y: 16,
-    x: direction > 0 ? 10 : direction < 0 ? -10 : 0,
+    x: direction > 0 ? 50 : -50,
   }),
   center: {
     opacity: 1,
-    y: 0,
     x: 0,
     transition: {
-      duration: 0.45,
-      ease: [0.22, 1, 0.36, 1],
+      duration: 0.5,
+      ease: [0.25, 1, 0.5, 1], // Professional "Quart" ease
+      when: "beforeChildren", // Animate wrapper before staggering children
+      staggerChildren: 0.1,
     },
   },
   exit: (direction) => ({
     opacity: 0,
-    y: -6,
-    x: direction > 0 ? -10 : direction < 0 ? 10 : 0,
+    x: direction > 0 ? -30 : 30,
     transition: {
-      duration: 0.35,
-      ease: [0.22, 1, 0.36, 1],
+      duration: 0.3,
+      ease: "easeInOut",
+    },
+  }),
+};
+
+// Individual items (Title, Text, Button) fade up
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
+};
+
+// The blue bar grows vertically
+const barVariants = {
+  hidden: { scaleY: 0, originY: 0 },
+  visible: {
+    scaleY: 1,
+    transition: { duration: 0.6, ease: [0.25, 1, 0.5, 1] },
+  },
+};
+
+// The Grid on the right needs its own stagger context
+const gridContainerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.12,
+      delayChildren: 0.2, // Wait for left column to start
+    },
+  },
+};
+
+// Feature cards: each one animates in with its own slight personality
+const cardItemVariants = {
+  hidden: (index) => ({
+    opacity: 0,
+    y: 24,
+    scale: 0.96,
+    rotate: index % 2 === 0 ? 1.5 : -1.5, // tiny alternating tilt
+  }),
+  visible: (index) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    rotate: 0,
+    transition: {
+      type: "spring",
+      stiffness: 220,
+      damping: 20,
     },
   }),
 };
@@ -61,18 +93,18 @@ const contentVariants = {
 export default function WorkshopContent({
   eyebrow = "Our Workshops",
   title = "Workshop Overview",
-  lead = DEFAULT_LEAD,
-  features = DEFAULT_FEATURES,
+  lead = "Description goes here...",
+  features = [],
   workshopIndex = 0,
   direction = 0,
 }) {
   const sectionStyle = {
     backgroundColor: "#ffffff",
     borderTop: `1px solid ${COLORS.border}`,
-    paddingTop: "clamp(96px, 12vw, 200px)",
+    paddingTop: "clamp(140px, 15vw, 240px)", // Increased top padding to account for overlay
     paddingBottom: "100px",
-    fontFamily:
-      'Montserrat, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif',
+    fontFamily: "Montserrat, system-ui, sans-serif",
+    overflow: "hidden", // Prevent scrollbars during slide
   };
 
   const containerStyle = {
@@ -84,146 +116,77 @@ export default function WorkshopContent({
   const rowStyle = {
     display: "grid",
     gridTemplateColumns: "1.1fr 0.9fr",
-    gap: "clamp(18px, 4vw, 40px)",
+    gap: "clamp(24px, 5vw, 60px)",
     alignItems: "center",
   };
 
   const leftCol = { position: "relative", paddingLeft: 0, maxWidth: 720 };
 
   const eyebrowStyle = {
-    fontFamily: "Poly, ui-serif, Georgia, Cambria, Times New Roman, serif",
+    fontFamily: "Poly, serif",
     color: COLORS.blue,
     fontSize: 16,
     fontWeight: 700,
-    margin: "0 0 6px 0",
+    margin: "0 0 12px 0",
+    display: "block",
   };
 
   const h2Style = {
-    fontFamily: "Poly, ui-serif, Georgia, Cambria, Times New Roman, serif",
+    fontFamily: "Poly, serif",
     fontWeight: 400,
-    fontSize: "clamp(28px, 4vw, 40px)",
+    fontSize: "clamp(32px, 4vw, 48px)",
     color: COLORS.textMain,
-    lineHeight: 1.2,
-    margin: "0 0 40px 0",
+    lineHeight: 1.1,
+    margin: "0 0 20px 0",
   };
 
   const blueBar = {
     position: "absolute",
-    left: "-20px",
-    top: 120,
-    bottom: 75,
-    width: 8,
+    left: "-24px",
+    top: 130,
+    bottom: 80,
+    width: 6,
     background: COLORS.blue,
-    borderRadius: 2,
+    borderRadius: 4,
   };
 
   const leadP = {
     margin: 0,
     color: COLORS.textMuted,
-    fontSize: 16,
-    lineHeight: 1.6,
+    fontSize: "1.05rem",
+    lineHeight: 1.7,
   };
 
   const ctaBtn = {
     background: COLORS.blue,
     color: "#fff",
     border: `1px solid ${COLORS.blue}`,
-    borderRadius: 6,
-    padding: "10px 18px",
+    borderRadius: "50px", // Pill shape
+    padding: "14px 32px",
     fontWeight: 700,
+    fontSize: "1rem",
     cursor: "pointer",
-    marginTop: 35,
+    marginTop: 40,
+    fontFamily: "Montserrat, sans-serif",
   };
 
   const cardGrid = {
     display: "grid",
     gridTemplateColumns: "repeat(2, 1fr)",
-    gap: "14px",
+    gap: "16px",
   };
 
   const cardBase = {
     position: "relative",
     border: `1px solid ${COLORS.border}`,
-    borderRadius: 14,
-    padding: "16px",
+    borderRadius: 16,
+    padding: "20px",
     background: "#fafafa",
     overflow: "hidden",
     cursor: "default",
-  };
-
-  const cardHead = {
     display: "flex",
-    alignItems: "center",
-    gap: 10,
-    marginBottom: 4,
-  };
-
-  const iconWrapBase = {
-    width: 28,
-    height: 28,
-    borderRadius: 999,
-    background: COLORS.chip,
-    color: COLORS.blue,
-    display: "grid",
-    placeItems: "center",
-    flex: "0 0 28px",
-  };
-
-  const cardTitle = {
-    fontFamily: "Poly, ui-serif, Georgia, Cambria, Times New Roman, serif",
-    fontSize: 18,
-    color: COLORS.textMain,
-    margin: 0,
-    fontWeight: 600,
-    lineHeight: 1.2,
-  };
-
-  const cardBody = {
-    margin: "6px 0 0",
-    color: COLORS.textMuted,
-    fontSize: 14,
-    lineHeight: 1.6,
-  };
-
-  const cardVariants = {
-    rest: {
-      y: 0,
-      scale: 1,
-      boxShadow: "0 2px 10px rgba(0,0,0,0.06)",
-      borderColor: COLORS.border,
-      backgroundColor: "#fafafa",
-      transition: { duration: 0.25, ease: [0.22, 1, 0.36, 1] },
-    },
-    hover: {
-      y: -6,
-      scale: 1.02,
-      boxShadow: "0 16px 32px rgba(0,0,0,0.16)",
-      borderColor: "rgba(27,86,186,0.45)",
-      backgroundColor: "#ffffff",
-      transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] },
-    },
-  };
-
-  const iconVariants = {
-    rest: {
-      scale: 1,
-      rotate: 0,
-      transition: { type: "spring", stiffness: 220, damping: 18 },
-    },
-    hover: {
-      scale: 1.07,
-      rotate: 6,
-      transition: { type: "spring", stiffness: 220, damping: 18 },
-    },
-  };
-
-  const sheenVariants = {
-    rest: { x: "-120%", opacity: 0 },
-    hover: {
-      x: "120%",
-      opacity: 0.35,
-      transition: { duration: 0.6, ease: "easeInOut" },
-    },
+    flexDirection: "column",
+    gap: "8px",
   };
 
   return (
@@ -232,43 +195,63 @@ export default function WorkshopContent({
       id="workshop-overview"
       aria-label="Workshop overview"
     >
-      {/* Only inner content block animates; white section stays fixed */}
+      {/* AnimatePresence handles the unmounting of old content and mounting of new */}
       <AnimatePresence mode="wait" custom={direction}>
         <motion.div
           key={workshopIndex}
-          variants={contentVariants}
+          custom={direction}
+          variants={wrapperVariants}
           initial="enter"
           animate="center"
           exit="exit"
-          custom={direction}
+          style={{ width: "100%" }}
         >
           <div style={containerStyle}>
-            <div style={rowStyle}>
-              {/* LEFT: eyebrow + title + paragraph + CTA */}
+            <div style={rowStyle} className="content-row">
+              {/* --- LEFT COLUMN: Text --- */}
               <div style={leftCol}>
-                <p style={eyebrowStyle}>{eyebrow}</p>
-                <h2 style={h2Style}>{title}</h2>
+                <motion.span variants={itemVariants} style={eyebrowStyle}>
+                  {eyebrow}
+                </motion.span>
 
-                <div style={blueBar} aria-hidden="true" />
-                <p style={leadP}>{lead}</p>
+                {/* 
+                    WRAPPER: Holds the Bar and Title together.
+                    Relative positioning allows the bar (absolute) 
+                    to stick to the height of this div.
+                */}
+                <div style={{ position: "relative", marginBottom: "20px" }}>
+                  <motion.div
+                    variants={barVariants}
+                    style={{
+                      position: "absolute",
+                      left: "-24px", // Offset to left
+                      top: 0,
+                      bottom: 0,     // Stretches to match height of H2
+                      width: 6,
+                      background: COLORS.blue,
+                      borderRadius: 4,
+                    }}
+                  />
+                  <motion.h2 variants={itemVariants} style={h2Style}>
+                    {title}
+                  </motion.h2>
+                </div>
+
+                <motion.p variants={itemVariants} style={leadP}>
+                  {lead}
+                </motion.p>
 
                 <motion.button
                   style={ctaBtn}
+                  variants={itemVariants}
                   whileHover={{
-                    y: -2,
-                    filter: "brightness(0.95)",
-                    boxShadow: "0 10px 24px rgba(0,0,0,0.12)",
+                    y: -3,
+                    backgroundColor: "#fff",
+                    color: COLORS.blue,
+                    boxShadow: "0 12px 24px rgba(27, 86, 186, 0.15)",
                   }}
-                  whileTap={{
-                    y: 0,
-                    scale: 0.98,
-                    boxShadow: "0 6px 16px rgba(0,0,0,0.10)",
-                  }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 300,
-                    damping: 20,
-                  }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 15 }}
                   onClick={() =>
                     window.dispatchEvent(
                       new CustomEvent("open-contact", {
@@ -281,65 +264,97 @@ export default function WorkshopContent({
                 </motion.button>
               </div>
 
-              {/* RIGHT: feature cards with hover animations */}
-              <div style={cardGrid}>
+              {/* --- RIGHT COLUMN: Features Grid --- */}
+              <motion.div
+                style={cardGrid}
+                className="feature-cards"
+                variants={gridContainerVariants}
+                initial="hidden"
+                animate="visible"
+              >
                 {features.map((f, i) => (
                   <motion.article
                     key={i}
+                    custom={i}
                     style={cardBase}
-                    variants={cardVariants}
-                    initial="rest"
-                    whileHover="hover"
-                    animate="rest"
+                    variants={cardItemVariants}
+                    whileHover={{
+                      y: -5,
+                      borderColor: "rgba(27,86,186,0.3)",
+                      boxShadow: "0 12px 30px rgba(0,0,0,0.08)",
+                      backgroundColor: "#ffffff",
+                    }}
                   >
-                    <motion.span
-                      variants={sheenVariants}
+                    <div
                       style={{
-                        position: "absolute",
-                        top: 0,
-                        bottom: 0,
-                        left: 0,
-                        width: "35%",
-                        background:
-                          "linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.6), rgba(255,255,255,0))",
-                        pointerEvents: "none",
-                        filter: "blur(2px)",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 12,
                       }}
-                    />
-                    <div style={cardHead}>
-                      <motion.span
-                        style={iconWrapBase}
-                        variants={iconVariants}
-                        aria-hidden="true"
+                    >
+                      <div
+                        style={{
+                          width: 32,
+                          height: 32,
+                          borderRadius: "50%",
+                          background: COLORS.chip,
+                          color: COLORS.blue,
+                          display: "grid",
+                          placeItems: "center",
+                        }}
                       >
                         <svg
-                          width="14"
-                          height="14"
+                          width="16"
+                          height="16"
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke="currentColor"
-                          strokeWidth="2"
+                          strokeWidth="2.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
                         >
-                          <path d="M20 6L9 17l-5-5" />
+                          <polyline points="20 6 9 17 4 12"></polyline>
                         </svg>
-                      </motion.span>
-                      <h3 style={cardTitle}>{f.title}</h3>
+                      </div>
+                      <h3
+                        style={{
+                          fontFamily: "Poly",
+                          fontSize: 18,
+                          margin: 0,
+                          color: COLORS.textMain,
+                        }}
+                      >
+                        {f.title}
+                      </h3>
                     </div>
-                    <p style={cardBody}>{f.body}</p>
+                    <p
+                      style={{
+                        margin: 0,
+                        fontSize: 13,
+                        lineHeight: 1.5,
+                        color: COLORS.textMuted,
+                      }}
+                    >
+                      {f.body}
+                    </p>
                   </motion.article>
                 ))}
-              </div>
+              </motion.div>
             </div>
           </div>
         </motion.div>
       </AnimatePresence>
 
+      {/* Responsive Styles */}
       <style>{`
         @media (max-width: 900px) {
-          #workshop-overview article { padding: 14px; }
-          #workshop-overview .cards { grid-template-columns: 1fr !important; }
+          .content-row { 
+            grid-template-columns: 1fr !important; 
+            gap: 40px !important; 
+          }
+          .feature-cards { 
+            grid-template-columns: 1fr !important; 
+          }
         }
       `}</style>
     </section>

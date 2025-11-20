@@ -159,7 +159,7 @@ export default () => {
               lineHeight: 1.6,
               margin: "0 0 32px 0",
             }}>
-              Random filler text goes here workshops in sydney filler text goes here random filler text
+              Empowering the Next Generation with Real-World Career Guidance. Advance Careers is a student-led, not-for-profit organisation delivering high-impact, evidence-based workshops & career programs to high schools across NSW. Our mission is to make high-quality career education accessible, relatable, & genuinely inspiring.
             </p>
             <button style={{
               backgroundColor: "#1A2B4D",

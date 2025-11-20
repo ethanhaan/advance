@@ -18,7 +18,7 @@ export const offeringsData = [
     overviewEyebrow: "Career Insights Panel",
     overviewTitle: "Career stories that feel real and relatable.",
     overviewLead:
-      "Students hear directly from recent graduates and current university students about pathways, pivots, and practical lessons that don’t fit into a syllabus.",
+      "A panel of 4-5 university students from various degrees. Moderated discussions in an assembly format, with networking opportunities and a Q&A for student engagement.",
     overviewFeatures: [
       {
         title: "Honest, lived experience",
@@ -43,7 +43,7 @@ export const offeringsData = [
     imgUrl:
       "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1770&auto=format&fit=crop",
     title: "Study Skills Workshop",
-    desc: "Presented by university students who’ve succeeded through the same process, this workshop covers study techniques and strategies that helped us thrive in university and land jobs.",
+    desc: "Equip students with practical, evidence-based strategies & foundational processes delivered by high-achieving university students who have succeeded in high school & beyond using these systems.",
     time: "40 - 60 minutes",
     students: "20 - 30 Students",
     grade: "Years 7+",
@@ -52,7 +52,7 @@ export const offeringsData = [
     overviewEyebrow: "Study Skills Workshop",
     overviewTitle: "Turn study from last-minute cramming into a repeatable system.",
     overviewLead:
-      "We translate evidence-based study strategies into simple, practical routines that students can start using in their very next homework session.",
+      "Equip students with practical, evidence-based strategies & foundational processes delivered by high-achieving university students who have succeeded in high school & beyond using these systems.",
     overviewFeatures: [
       {
         title: "Evidence-based techniques",
@@ -86,7 +86,7 @@ export const offeringsData = [
     overviewEyebrow: "Subject Expert Sessions",
     overviewTitle: "Connect classroom content to real-world pathways.",
     overviewLead:
-      "Professionals and uni students step into elective classes to show how today’s topics link to tomorrow’s jobs.",
+      "Support students in choosing subjects aligned to their interests, strengths & long-term goals. Facilitators break down university prerequisites, ATAR misconceptions, & real-world implications of subject choice - with the clarity & lived experience of working in these industries themselves.",
     overviewFeatures: [
       {
         title: "Curriculum-aligned examples",
@@ -120,7 +120,7 @@ export const offeringsData = [
     overviewEyebrow: "Career Exploration Day",
     overviewTitle: "A high-energy taster of multiple career pathways.",
     overviewLead:
-      "Students rotate through short, sharp sessions with speakers from different industries, turning a single period into a broad career snapshot.",
+      "Students rotate between career representatives from fields like Law, Finance, and Engineering, getting insights into each career path and tips for success in those industries.",
     overviewFeatures: [
       {
         title: "Rotating stations",

@@ -1,16 +1,59 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import workshopimg from '../assets/hero_image.png';
 
-/**
- * Hero component (reference-matched)
- * - Solid dark background (no image/gradient)
- * - Left-aligned eyebrow/headline/CTA inside .hero__container
- * - Stats + divider live outside the container in a centered belt
- *
- * NOTE: Inline styles only. Framer Motion adds swipe/wipe animations.
- */
+// --- 1. Move Animation Constants OUTSIDE the component ---
+const swipeTransition = { duration: 0.9, ease: [0.16, 1, 0.3, 1] };
+const wipeTransition = { duration: 0.9, ease: [0.37, 0, 0.63, 1] };
+
+// --- 2. Move the Helper Component OUTSIDE the component ---
+// Now React knows this is the same component across re-renders
+const SwipeReveal = ({ children, delay = 0 }) => {
+  const wrapperStyle = {
+    position: "relative",
+    display: "inline-block",
+    overflow: "hidden",
+  };
+  const wipeStyle = {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    height: "100%",
+    width: "28%",
+    pointerEvents: "none",
+    background:
+      "linear-gradient(90deg, rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.55) 40%, rgba(255,255,255,0.0) 100%)",
+    mixBlendMode: "screen",
+    filter: "blur(0.3px)",
+  };
+
+  return (
+    <motion.span
+      style={wrapperStyle}
+      initial={{ clipPath: "inset(0 100% 0 0)", opacity: 0 }}
+      animate={{ clipPath: "inset(0 0% 0 0)", opacity: 1 }}
+      transition={{ ...swipeTransition, delay }}
+    >
+      {children}
+      <motion.span
+        aria-hidden="true"
+        style={wipeStyle}
+        initial={{ x: "-120%", opacity: 1 }}
+        animate={{
+          x: "150%",
+          opacity: 0,
+          transitionEnd: { display: "none" },
+        }}
+        transition={{ ...wipeTransition, delay: delay + 0.05 }}
+      />
+    </motion.span>
+  );
+};
+
 export default function Hero({ style }) {
+  const navigate = useNavigate();
+
   const COLORS = {
     textMain: "#ffffff",
     textMuted: "#a0a0a0",
@@ -27,53 +70,7 @@ export default function Hero({ style }) {
   const [ctaHover, setCtaHover] = useState(false);
   const [ctaActive, setCtaActive] = useState(false);
 
-  // ======== Swipe / Wipe helpers (Canva-like) ========
-  const swipeTransition = { duration: 0.9, ease: [0.16, 1, 0.3, 1] };
-  const wipeTransition = { duration: 0.9, ease: [0.37, 0, 0.63, 1] };
-
-  const SwipeReveal = ({ children, delay = 0 }) => {
-    const wrapperStyle = {
-      position: "relative",
-      display: "inline-block",
-      overflow: "hidden",        // <— clip the wipe so it can't linger
-    };
-    const wipeStyle = {
-      position: "absolute",
-      top: 0,
-      left: 0,
-      height: "100%",
-      width: "28%",
-      pointerEvents: "none",
-      background:
-        "linear-gradient(90deg, rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.55) 40%, rgba(255,255,255,0.0) 100%)",
-      mixBlendMode: "screen",
-      filter: "blur(0.3px)",
-    };
-
-    return (
-      <motion.span
-        style={wrapperStyle}
-        initial={{ clipPath: "inset(0 100% 0 0)", opacity: 0 }}
-        animate={{ clipPath: "inset(0 0% 0 0)", opacity: 1 }}
-        transition={{ ...swipeTransition, delay }}
-      >
-        {children}
-        <motion.span
-          aria-hidden="true"
-          style={wipeStyle}
-          initial={{ x: "-120%", opacity: 1 }}
-          animate={{
-            x: "150%",            // overshoot beyond right edge
-            opacity: 0,           // fade out while exiting
-            transitionEnd: { display: "none" }, // then fully remove
-          }}
-          transition={{ ...wipeTransition, delay: delay + 0.05 }}
-        />
-      </motion.span>
-    );
-  };
-
-  // ======== Styles (layout/typography unchanged) ========
+  // ======== Styles ========
   const heroStyle = {
     position: "sticky",
     top: 0,
@@ -156,6 +153,7 @@ export default function Hero({ style }) {
     outline: "none",
     position: "relative",
     overflow: "hidden",
+    cursor: "pointer",
   };
 
   const ctaTextStyle = {
@@ -274,8 +272,8 @@ export default function Hero({ style }) {
             </SwipeReveal>
           </h1>
 
-          <motion.a
-            href="#workshops"
+          <motion.button
+            onClick={() => navigate('/programs')}
             aria-label="Book a workshop"
             style={ctaStyle}
             initial={{ y: 10, opacity: 0 }}
@@ -334,7 +332,7 @@ export default function Hero({ style }) {
                 />
               </motion.svg>
             </span>
-          </motion.a>
+          </motion.button>
         </motion.div>
       </div>
 
@@ -371,4 +369,3 @@ export default function Hero({ style }) {
     </section>
   );
 }
-
