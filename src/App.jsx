@@ -57,7 +57,7 @@ function App() {
               path="/programs"
               element={
                 <PageTransition>
-                  <WorkshopsPage setIsNavbarFixed={setIsNavbarFixed} />
+                  <WorkshopsPage setIsNavbarFixed={setIsNavbarFixed} setIsOpaque={setIsOpaque}/>
                 </PageTransition>
               }
             />

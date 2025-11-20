@@ -53,7 +53,7 @@ export default function Navbar({ isNavbarFixed = false, isOpaque = true }) {
         top: 0,
         left: 0,
         width: '100%',
-        zIndex: 5,
+        zIndex: 1000,
         padding: '1rem 2rem',
         boxSizing: 'border-box',
         color: '#ffffff',

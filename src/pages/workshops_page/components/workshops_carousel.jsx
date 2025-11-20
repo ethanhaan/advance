@@ -1,8 +1,38 @@
+// ./src/pages/workshops_page/components/workshops_carousel.jsx
 import React, { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+
+const carouselVariants = {
+  enter: (direction) => ({
+    opacity: 0,
+    x: direction > 0 ? 40 : direction < 0 ? -40 : 0,
+    scale: 0.98,
+  }),
+  center: {
+    opacity: 1,
+    x: 0,
+    scale: 1,
+    transition: {
+      duration: 0.45,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+  exit: (direction) => ({
+    opacity: 0,
+    x: direction > 0 ? -40 : direction < 0 ? 40 : 0,
+    scale: 0.98,
+    transition: {
+      duration: 0.35,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  }),
+};
 
 export default function WorkshopsCarousel({
   images = [],
   aspect = 16 / 9,
+  workshopIndex = 0,
+  direction = 0,
 }) {
   const [active, setActive] = useState(0);
   const count = images.length;
@@ -15,7 +45,7 @@ export default function WorkshopsCarousel({
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  }, [count]);
 
   const prev = () => setActive((i) => (i - 1 + count) % count);
   const next = () => setActive((i) => (i + 1) % count);
@@ -32,7 +62,7 @@ export default function WorkshopsCarousel({
     <section
       style={{
         background: "#ffffff",
-        padding: "96px 0 70px",
+        padding: "30px 0 70px",
         borderTop: "1px solid #e5e7eb",
       }}
     >
@@ -74,7 +104,6 @@ export default function WorkshopsCarousel({
           display: block;
         }
 
-        /* Center slide: crisp */
         .ws-slide[data-pos="0"] {
           opacity: 1;
           filter: none;
@@ -82,18 +111,16 @@ export default function WorkshopsCarousel({
           z-index: 3;
         }
 
-        /* Neighbor slides (peek): slightly smaller, faded & blurred */
         .ws-slide[data-pos="-1"],
         .ws-slide[data-pos="1"] {
           width: 62%;
-          opacity: 0.72;                         /* fade */
-          filter: brightness(0.85) saturate(0.9) blur(2px); /* dim + blur */
+          opacity: 0.72;
+          filter: brightness(0.85) saturate(0.9) blur(2px);
           box-shadow: 0 8px 20px rgba(0,0,0,0.15);
           z-index: 2;
           cursor: pointer;
         }
 
-        /* Hide slides beyond immediate neighbors */
         .ws-slide[data-abspos="2"],
         .ws-slide[data-abspos="3"] {
           opacity: 0;
@@ -131,62 +158,77 @@ export default function WorkshopsCarousel({
           background: #1B56BA;
         }
 
-        /* Respect reduced motion: avoid blur animation jumps */
         @media (prefers-reduced-motion: reduce) {
           .ws-slide { transition: transform 320ms ease, opacity 200ms ease; }
         }
       `}</style>
 
-      <div className="ws-carousel" ref={containerRef} aria-label="Workshops carousel">
-        <div
-          className="ws-viewport"
-          style={{ paddingTop: `${100 / aspect}%` }}
+      {/* Only this block animates when workshopIndex changes */}
+      <AnimatePresence mode="wait" custom={direction}>
+        <motion.div
+          key={workshopIndex}
+          variants={carouselVariants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          custom={direction}
         >
-          <div className="ws-fade-edge left" aria-hidden="true" />
-          <div className="ws-fade-edge right" aria-hidden="true" />
+          <div
+            className="ws-carousel"
+            ref={containerRef}
+            aria-label="Workshops carousel"
+          >
+            <div
+              className="ws-viewport"
+              style={{ paddingTop: `${100 / aspect}%` }}
+            >
+              <div className="ws-fade-edge left" aria-hidden="true" />
+              <div className="ws-fade-edge right" aria-hidden="true" />
 
-          {images.map((src, i) => {
-            if (!src) return null;
-            const pos = relIndex(i);
-            const abspos = Math.abs(pos);
-            const translatePercent = pos * (abspos === 1 ? 30 : 52); // was 52 for all
-            const scale = pos === 0 ? 1 : 0.9;
+              {images.map((src, i) => {
+                if (!src) return null;
+                const pos = relIndex(i);
+                const abspos = Math.abs(pos);
+                const translatePercent = pos * (abspos === 1 ? 30 : 52);
+                const scale = pos === 0 ? 1 : 0.9;
 
-            return (
-              <div
-                key={i}
-                className="ws-slide"
-                data-pos={pos}
-                data-abspos={abspos}
-                style={{
-                  ["--ar"]: String(aspect),
-                  transform: `translate(-50%, -50%) translateX(${translatePercent}%) scale(${scale})`,
-                  zIndex: 10 - abspos,
-                }}
-                onClick={() => {
-                  if (pos !== 0) setActive(i);
-                }}
-              >
-                <img src={src} alt={`Workshop ${i + 1}`} draggable="false" />
+                return (
+                  <div
+                    key={i}
+                    className="ws-slide"
+                    data-pos={pos}
+                    data-abspos={abspos}
+                    style={{
+                      ["--ar"]: String(aspect),
+                      transform: `translate(-50%, -50%) translateX(${translatePercent}%) scale(${scale})`,
+                      zIndex: 10 - abspos,
+                    }}
+                    onClick={() => {
+                      if (pos !== 0) setActive(i);
+                    }}
+                  >
+                    <img src={src} alt={`Workshop ${i + 1}`} draggable="false" />
+                  </div>
+                );
+              })}
+            </div>
+
+            {count > 1 && (
+              <div className="ws-dots" role="tablist" aria-label="Slide indicators">
+                {images.map((_, i) => (
+                  <div
+                    key={`dot-${i}`}
+                    className={`ws-dot ${i === active ? "active" : ""}`}
+                    role="button"
+                    aria-label={`Go to slide ${i + 1}`}
+                    onClick={() => setActive(i)}
+                  />
+                ))}
               </div>
-            );
-          })}
-        </div>
-
-        {count > 1 && (
-          <div className="ws-dots" role="tablist" aria-label="Slide indicators">
-            {images.map((_, i) => (
-              <div
-                key={`dot-${i}`}
-                className={`ws-dot ${i === active ? "active" : ""}`}
-                role="button"
-                aria-label={`Go to slide ${i + 1}`}
-                onClick={() => setActive(i)}
-              />
-            ))}
+            )}
           </div>
-        )}
-      </div>
+        </motion.div>
+      </AnimatePresence>
     </section>
   );
 }
