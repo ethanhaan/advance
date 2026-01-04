@@ -1,0 +1,65 @@
+/* src/global_components/Navbar/Navbar.css */
+
+/* Center column wrapper for desktop links */
+.navbar-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Right column wrapper (CTA + hamburger) */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1.5rem;
+}
+
+/* Desktop links list */
+.nav-desktop-links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+  margin: 0;
+  padding: 0;
+}
+
+/* Mobile hamburger button (hidden on desktop) */
+.navbar-mobile-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 1002; /* Above the mobile menu overlay */
+}
+
+/* Helper for the hamburger lines */
+.hamburger-line {
+  width: 24px;
+  height: 2px;
+  background-color: #ffffff;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+/* Mobile Breakpoint */
+@media (max-width: 900px) {
+  .navbar-center {
+    display: none; /* Hide desktop links */
+  }
+
+  .nav-desktop-cta {
+    display: none; /* Hide desktop CTA */
+  }
+
+  .navbar-mobile-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+  }
+}
+

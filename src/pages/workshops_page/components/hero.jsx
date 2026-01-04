@@ -1,3 +1,4 @@
+// ./src/pages/workshops_page/components/hero.jsx
 import React from "react";
 import { motion } from "framer-motion";
 import canterburyworkshopimg from "../assets/canterbury_workshop.png";
@@ -51,6 +52,7 @@ export default () => {
 
   return (
     <div
+      className="ws-hero"
       style={{
         width: "100vw",
         height: "70vh",
@@ -63,7 +65,49 @@ export default () => {
         justifyContent: "center",
       }}
     >
+      {/* Mobile-only overrides (desktop remains EXACTLY as before) */}
+      <style>{`
+        @media (max-width: 900px) {
+          .ws-hero {
+            height: 70vh !important; /* keep your original height */
+          }
+          .ws-hero-inner {
+            max-width: 100% !important;
+            padding-right: 0px !important; /* prevent off-screen clipping */
+            padding-left: 24px !important;
+            padding-right: 24px !important; /* comfortable gutters */
+          }
+          .ws-hero-title {
+            font-size: 48px !important; /* scale down from 64px on smaller screens */
+            line-height: 1.0 !important;  /* keep original line-height */
+          }
+          .ws-hero-lead-wrap {
+            gap: 14px !important;
+            margin-top: 18px !important;
+            margin-bottom: 56px !important;
+            max-width: 100% !important;
+          }
+          .ws-hero-lead {
+            font-size: 16px !important; /* slightly smaller for mobile */
+          }
+        }
+
+        @media (max-width: 480px) {
+          .ws-hero-inner {
+            padding-left: 18px !important;
+            padding-right: 18px !important;
+          }
+          .ws-hero-title {
+            font-size: 42px !important;
+          }
+          .ws-hero-lead-wrap {
+            margin-bottom: 46px !important;
+          }
+        }
+      `}</style>
+
       <div
+        className="ws-hero-inner"
         style={{
           inset: 0,
           display: "flex",
@@ -76,6 +120,7 @@ export default () => {
       >
         {/* Heading: Poly */}
         <div
+          className="ws-hero-title"
           style={{
             fontFamily: "Poly, serif",
             color: "#FFFFFF",
@@ -86,11 +131,14 @@ export default () => {
             margin: 0,
           }}
         >
-          <SwipeReveal delay={0.05}><span style={{fontFamily: "Poly"}}>Our Programs</span></SwipeReveal>
+          <SwipeReveal delay={0.05}>
+            <span style={{ fontFamily: "Poly" }}>Our Programs</span>
+          </SwipeReveal>
         </div>
 
         {/* Paragraph with accent bar: Montserrat */}
         <div
+          className="ws-hero-lead-wrap"
           style={{
             display: "flex",
             alignItems: "stretch",
@@ -110,9 +158,14 @@ export default () => {
             }}
             initial={{ scaleY: 0 }}
             animate={{ scaleY: 1 }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: 0.18 }}
+            transition={{
+              duration: 0.5,
+              ease: [0.16, 1, 0.3, 1],
+              delay: 0.18,
+            }}
           />
           <div
+            className="ws-hero-lead"
             style={{
               fontFamily:
                 'Montserrat, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
@@ -132,5 +185,4 @@ shape them back.`}</SwipeReveal>
     </div>
   );
 };
-
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import canterburyworkshopimg from "../assets/canterbury_workshop.png";
 
@@ -49,11 +49,20 @@ export default () => {
     );
   };
 
+  // ======== Mobile responsiveness (keep desktop EXACT same) ========
+  const [vw, setVw] = useState(typeof window !== "undefined" ? window.innerWidth : 1024);
+  useEffect(() => {
+    const onResize = () => setVw(window.innerWidth);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+  const isMobile = vw < 768;
+
   return (
     <div
       style={{
         width: "100vw",
-        height: "60vh",
+        height: isMobile ? "50svh" : "60vh", // mobile-friendly height, desktop unchanged
         position: "relative",
         backgroundImage: `url(${canterburyworkshopimg})`,
         backgroundSize: "cover",
@@ -72,7 +81,10 @@ export default () => {
           justifyContent: "center",
           alignItems: "flex-start",
           maxWidth: "1000px",
-          paddingRight: "200px",
+          paddingRight: isMobile ? "24px" : "200px", // reduce right padding on mobile
+          paddingLeft: isMobile ? "24px" : "0px", // add left padding on mobile so text doesn't hug edge
+          boxSizing: "border-box",
+          width: "100%",
         }}
       >
         {/* Heading: Poly */}
@@ -81,13 +93,15 @@ export default () => {
             fontFamily: "Poly, serif",
             color: "#FFFFFF",
             fontWeight: 400,
-            fontSize: "64px",
+            fontSize: isMobile ? "44px" : "64px", // scale down on mobile
             lineHeight: 1.0,
             letterSpacing: "0.01em",
             margin: 0,
           }}
         >
-          <SwipeReveal delay={0.05}><span style={{fontFamily: "Poly"}}>About</span></SwipeReveal>
+          <SwipeReveal delay={0.05}>
+            <span style={{ fontFamily: "Poly" }}>About</span>
+          </SwipeReveal>
         </div>
 
         {/* Paragraph with accent bar: Montserrat */}
@@ -95,15 +109,15 @@ export default () => {
           style={{
             display: "flex",
             alignItems: "stretch",
-            gap: "18px",
-            marginTop: "28px",
-            maxWidth: "980px",
+            gap: isMobile ? "14px" : "18px",
+            marginTop: isMobile ? "18px" : "28px",
+            maxWidth: isMobile ? "560px" : "980px", // prevent over-wide copy on mobile
           }}
         >
           {/* Blue accent bar – grow in */}
           <motion.div
             style={{
-              width: "8px",
+              width: isMobile ? "6px" : "8px", // slightly slimmer on mobile
               backgroundColor: "#1B56BA",
               alignSelf: "stretch",
               transformOrigin: "top left",
@@ -112,12 +126,13 @@ export default () => {
             animate={{ scaleY: 1 }}
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: 0.18 }}
           />
+
           <div
             style={{
               fontFamily:
                 'Montserrat, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
               color: "#FFFFFF",
-              fontSize: "18px",
+              fontSize: isMobile ? "16px" : "18px", // mobile readable
               lineHeight: 1.7,
               margin: 0,
               whiteSpace: "pre-line",
@@ -131,4 +146,6 @@ Australian youth struggling to navigate their post‐high school life and career
     </div>
   );
 };
+
+// Time complexity: N/A (UI rendering)
 

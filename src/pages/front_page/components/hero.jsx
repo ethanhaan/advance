@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import workshopimg from '../assets/hero_image.png';
+import workshopimg from "../assets/hero_image.png";
 
 // --- 1. Move Animation Constants OUTSIDE the component ---
 const swipeTransition = { duration: 0.9, ease: [0.16, 1, 0.3, 1] };
 const wipeTransition = { duration: 0.9, ease: [0.37, 0, 0.63, 1] };
 
 // --- 2. Move the Helper Component OUTSIDE the component ---
-// Now React knows this is the same component across re-renders
 const SwipeReveal = ({ children, delay = 0 }) => {
   const wrapperStyle = {
     position: "relative",
@@ -60,20 +59,26 @@ export default function Hero({ style }) {
     eyebrow: "#dadada",
   };
 
-  const [vw, setVw] = useState(typeof window !== "undefined" ? window.innerWidth : 1024);
+  const [vw, setVw] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 1024
+  );
   useEffect(() => {
     const onResize = () => setVw(window.innerWidth);
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
+  const isMobile = vw < 768;
+
   const [ctaHover, setCtaHover] = useState(false);
   const [ctaActive, setCtaActive] = useState(false);
 
   // ======== Styles ========
   const heroStyle = {
-    position: "sticky",
-    top: 0,
+    // Desktop stays sticky exactly as before; mobile switches to relative to avoid jitter
+    position: isMobile ? "relative" : "sticky",
+    top: isMobile ? "auto" : 0,
+
     color: COLORS.textMain,
     backgroundImage: `url(${workshopimg})`,
     backgroundRepeat: "no-repeat",
@@ -93,8 +98,12 @@ export default function Hero({ style }) {
     width: "100%",
     maxWidth: "none",
     marginInline: 0,
-    padding:
-      "clamp(9rem, 15vw, 15rem) clamp(1.25rem, 7vw, 6rem) clamp(2rem, 6vw, 6rem) clamp(2rem, 8vw, 8rem)",
+
+    // Desktop padding EXACT SAME; mobile reduces top/side padding only
+    padding: isMobile
+      ? 'clamp(6.5rem, 18vw, 9rem) clamp(1.25rem, 7vw, 2rem) clamp(2rem, 6vw, 6rem) clamp(1.25rem, 7vw, 2rem)'
+      : 'clamp(9rem, 15vw, 15rem) clamp(1.25rem, 7vw, 6rem) clamp(2rem, 6vw, 6rem) clamp(2rem, 8vw, 8rem)',
+
     display: "grid",
     gap: "clamp(1rem, 2vw, 2rem)",
     textAlign: "left",
@@ -191,7 +200,10 @@ export default function Hero({ style }) {
     padding: 0,
     display: "grid",
     gridTemplateColumns: vw >= 768 ? "repeat(4, auto)" : "1fr 1fr",
-    gap: "1rem 10rem",
+
+    // Desktop EXACT SAME; mobile reduces the 10rem gap only
+    gap: isMobile ? "1rem 2rem" : "1rem 10rem",
+
     justifyContent: "center",
     textAlign: "left",
   };
@@ -245,7 +257,11 @@ export default function Hero({ style }) {
   };
   const statItem = {
     hidden: { y: 8, opacity: 0 },
-    show: { y: 0, opacity: 1, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
+    show: {
+      y: 0,
+      opacity: 1,
+      transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+    },
   };
 
   return (
@@ -266,19 +282,25 @@ export default function Hero({ style }) {
           </p>
 
           <h1>
-            <SwipeReveal delay={0.15}><span style={headlineStyle}>Advancing the careers</span></SwipeReveal>{" "}
+            <SwipeReveal delay={0.15}>
+              <span style={headlineStyle}>Advancing the careers</span>
+            </SwipeReveal>{" "}
             <SwipeReveal delay={0.3}>
               <span style={italicStyle}>of young Australians</span>
             </SwipeReveal>
           </h1>
 
           <motion.button
-            onClick={() => navigate('/programs')}
+            onClick={() => navigate("/programs")}
             aria-label="Book a workshop"
             style={ctaStyle}
             initial={{ y: 10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.55, ease: [0.2, 0.8, 0.2, 1], delay: 0.45 }}
+            transition={{
+              duration: 0.55,
+              ease: [0.2, 0.8, 0.2, 1],
+              delay: 0.45,
+            }}
             onMouseEnter={() => setCtaHover(true)}
             onMouseLeave={() => {
               setCtaHover(false);
@@ -291,7 +313,6 @@ export default function Hero({ style }) {
               setCtaActive(false);
             }}
           >
-            {/* CTA inner swipe shimmer on hover */}
             <motion.span
               aria-hidden="true"
               style={{
@@ -306,7 +327,10 @@ export default function Hero({ style }) {
                 mixBlendMode: "overlay",
               }}
               initial={false}
-              animate={{ x: ctaHover ? "115%" : "-115%", opacity: ctaHover ? 1 : 0 }}
+              animate={{
+                x: ctaHover ? "115%" : "-115%",
+                opacity: ctaHover ? 1 : 0,
+              }}
               transition={{ duration: 0.6, ease: "easeInOut" }}
             />
 
@@ -369,3 +393,6 @@ export default function Hero({ style }) {
     </section>
   );
 }
+
+// Time complexity: N/A (UI rendering)
+

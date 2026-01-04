@@ -10,45 +10,37 @@
   --divider: rgba(255, 255, 255, 0.12);
 
   /* Layout */
-  --max-w: 1200px;              /* used for belt inner */
-  /* --pad-y: clamp(4rem, 8vw, 8rem); */
+  --max-w: 1200px;              
   --pad-y: clamp(2rem, 6vw, 6rem);
 }
 
 /* Root wrapper */
 .hero {
-  position: sticky; /* Make the hero stick to the top */
+  position: sticky;
   top: 0;
 
   color: var(--text-main);
-  
-  /* --- Background Image Changes --- */
   background: 
-    /* Dark overlay for text readability */
     linear-gradient(rgba(11, 15, 20, 0.6), rgba(11, 15, 20, 0.6)),
-    /* Your background image */
     url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop') no-repeat center center;
-  background-size: cover; /* Ensures the image covers the entire container */
-  /* --- End of Changes --- */
+  background-size: cover;
 
   overflow: clip;
   isolation: isolate;
   container-type: inline-size;
   overflow-x: clip;
 
-  min-height: 100svh; /* Make hero take full screen height */
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
 }
 
-/* Full-width container — headline/eyebrow/CTA live here (left-aligned) */
+/* Full-width container */
 .hero__container {
   width: 100%;
   max-width: none;
   margin-inline: 0;
-  
   padding: clamp(9rem, 15vw, 15rem) clamp(1.25rem, 7vw, 6rem) var(--pad-y) clamp(2rem, 8vw, 8rem);
-  
   display: grid;
   gap: clamp(1rem, 2vw, 2rem);
   text-align: left;
@@ -63,23 +55,22 @@
 /* Eyebrow */
 .hero__eyebrow {
   margin: 0 0 0.9rem 0;
-  /* font-family: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif; */
   font-family: "Poly", ui-serif, Georgia, Cambria, "Times New Roman", serif;
   font-size: 0.95rem;
   line-height: 1.35;
-  font-weight: 400;          /* 500–600 acceptable; using 400 to match your current setup */
-  text-transform: none;      /* sentence case */
-  letter-spacing: 0.02em;    /* subtle tracking */
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0.02em;
   color: var(--eyebrow);
 }
 
-/* Headline (Poly), slightly smaller clamp */
+/* Headline */
 .hero__headline {
   margin: 0 0 clamp(1.4rem, 3.8vw, 2.4rem) 0;
   font-family: "Poly", ui-serif, Georgia, Cambria, "Times New Roman", serif;
   font-weight: 400;
-  line-height: 1.15;                        /* maintain readability */
-  font-size: clamp(2rem, 4.5vw, 3.25rem);   /* smaller across breakpoints */
+  line-height: 1.15;
+  font-size: clamp(2rem, 4.5vw, 3.25rem);
   max-width: 20ch;
   color: #fff;
 }
@@ -139,22 +130,18 @@
 }
 .hero__cta-icon { display: block; }
 
-/* ===========================
-   Centered belt for stats + divider (outside hero__container)
-   =========================== */
-
+/* Belt */
 .hero__belt {
   width: 100%;
   background: transparent;
 }
 
 .hero__belt-inner {
-  /* max-width: var(--max-w, 1200px); */
   margin-inline: auto;
   padding: clamp(0.5rem, 2.5vw, 1rem) clamp(1.25rem, 4vw, 2rem);
 }
 
-/* Stats: centered wrapper, but stat content stays left-aligned */
+/* Stats */
 .hero__stats {
   list-style: none;
   margin: 0;
@@ -162,20 +149,17 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem 10rem;
-  /* This will center the entire grid, not just the text inside the cells */
   justify-content: center; 
   text-align: left;
 }
 
-/* In the media query for .hero__stats */
 @media (min-width: 768px) {
   .hero__stats {
-    /* "auto" makes each column only as wide as its content */
     grid-template-columns: repeat(4, auto);
   }
 }
 
-/* Stat items (text-only, no cards) */
+/* Stat items */
 .hero__stat {
   display: grid;
   gap: 0.35rem;
@@ -204,12 +188,36 @@
   color: var(--text-muted, #a0a0a0);
 }
 
-/* Divider: centered to match belt inner width */
+/* Divider */
 .hero__stats-divider {
-  /* MODIFIED: Combined top margin with 'auto' for left/right to center it */
   margin: clamp(1.25rem, 3.5vw, 2.25rem) auto 0;
   height: 1px;
-  /* MODIFIED: Increased opacity from 0.12 to 0.25 to make it more visible */
   background: rgba(255, 255, 255, 0.25);
   width: 90%;
 }
+
+/* ===========================
+   MOBILE ONLY FIXES (keeps desktop identical)
+   =========================== */
+@media (max-width: 767px) {
+  /* Sticky hero on mobile can jitter; keep desktop sticky unchanged */
+  .hero {
+    position: relative;
+    top: auto;
+  }
+
+  /* Reduce top padding so content isn't pushed too far down */
+  .hero__container {
+    padding:
+      clamp(6.5rem, 18vw, 9rem)
+      clamp(1.25rem, 7vw, 2rem)
+      var(--pad-y)
+      clamp(1.25rem, 7vw, 2rem);
+  }
+
+  /* Prevent the huge column gap from blowing out layout */
+  .hero__stats {
+    gap: 1rem 2rem;
+  }
+}
+
