@@ -102,7 +102,8 @@ export default function Hero({ style }) {
     // Desktop padding EXACT SAME; mobile reduces top/side padding only
     padding: isMobile
       ? 'clamp(6.5rem, 18vw, 9rem) clamp(1.25rem, 7vw, 2rem) clamp(2rem, 6vw, 6rem) clamp(1.25rem, 7vw, 2rem)'
-      : 'clamp(9rem, 15vw, 15rem) clamp(1.25rem, 7vw, 6rem) clamp(2rem, 6vw, 6rem) clamp(2rem, 8vw, 8rem)',
+      : 'clamp(7.5rem, 13vw, 13rem) clamp(1.25rem, 7vw, 6rem) clamp(2rem, 6vw, 6rem) clamp(2rem, 8vw, 8rem)',
+
 
     display: "grid",
     gap: "clamp(1rem, 2vw, 2rem)",
@@ -110,12 +111,13 @@ export default function Hero({ style }) {
   };
 
   const contentStyle = {
-    maxWidth: "min(840px, 92vw)",
+    maxWidth: "min(1050px, 94vw)",
     textAlign: "left",
   };
 
   const eyebrowStyle = {
-    margin: "0 0 0.9rem 0",
+    margin: "0 0 0 0",
+    maxWidth: "min(840px, 92vw)",
     fontFamily: 'Poly, ui-serif, Georgia, Cambria, "Times New Roman", serif',
     fontSize: "0.95rem",
     lineHeight: 1.35,
@@ -278,15 +280,20 @@ export default function Hero({ style }) {
           animate="show"
         >
           <p style={eyebrowStyle}>
+            {/* <SwipeReveal delay={0.05}>Advance Careers is a not-for-profit</SwipeReveal> */}
+            {/* <br /> */}
+            {/* <SwipeReveal delay={0.2}> */}
+            {/*   delivering evidence-based, curriculum-aligned careers education programs for students in Years 9-12 */}
+            {/* </SwipeReveal> */}
             <SwipeReveal delay={0.05}>Empowering Youth</SwipeReveal>
           </p>
 
           <h1>
             <SwipeReveal delay={0.15}>
-              <span style={headlineStyle}>Advancing the careers</span>
+              <span style={headlineStyle}>Careers education isn’t keeping pace</span>
             </SwipeReveal>{" "}
             <SwipeReveal delay={0.3}>
-              <span style={italicStyle}>of young Australians</span>
+              <span style={italicStyle}>with today’s world of work</span>
             </SwipeReveal>
           </h1>
 
@@ -334,7 +341,7 @@ export default function Hero({ style }) {
               transition={{ duration: 0.6, ease: "easeInOut" }}
             />
 
-            <span style={ctaTextStyle}>Book Workshop</span>
+            <span style={ctaTextStyle}>View Programs</span>
             <span style={ctaIconWrapStyle} aria-hidden="true">
               <motion.svg
                 style={ctaIconStyle}
@@ -383,7 +390,7 @@ export default function Hero({ style }) {
             </motion.li>
             <motion.li style={statStyle} variants={statItem}>
               <span style={statValueStyle}>$3.5K</span>
-              <span style={statLabelStyle}>REVENUE</span>
+              <span style={statLabelStyle}>METRIC</span>
             </motion.li>
           </motion.ul>
 

@@ -156,10 +156,10 @@ export default function Testimonial() {
       <div style={quotePanelStyle}>
         <div style={quoteContentStyle}>
           <p style={mainQuoteStyle}>
-            "We envision a future where economics is no longer a subject reserved for the privileged or the elite."
+            "They broke everything down in a way that made sense - from uni courses to alternative pathways. It made planning my future feel achievable."
           </p>
           <p style={authorStyle}>
-            — CHAE J. YEAR 12 STUDENT
+            — Jayden S. YEAR 12 STUDENT
           </p>
           <div style={iconWrapperStyle}>
             <QuoteIcon color="#374151" />

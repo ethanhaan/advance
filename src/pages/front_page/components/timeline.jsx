@@ -79,7 +79,7 @@ const Timeline = () => {
 
   return (
     <div className="timeline-section">
-      <h1 className="main-title">Our History</h1>
+      <h1 className="main-title">Our Core Curriculum</h1>
 
       <div
         className="timeline-items-container"

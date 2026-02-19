@@ -53,13 +53,12 @@ export default function RedPage() {
         viewport={{ once: false, amount: 0.45 }}
       >
         <motion.h2 className="red-page-title" variants={item}>
-          Matt Ng is a Gronk
+          What is a career?
         </motion.h2>
 
         <motion.p className="red-page-description" variants={item}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-          labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-          laboris nisi ut aliquip ex ea commodo consequa
+          Advice without guidance is not only confusing, but actively harmful. Newsletters, courses, online coaching - these only add to the problem. Instead, your students deserve real advice from lived experience.
+          And we believe the tools to make these decisions should be accessible, relatable, & genuinely inspiring.
         </motion.p>
 
         <motion.button

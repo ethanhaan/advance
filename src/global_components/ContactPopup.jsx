@@ -463,7 +463,14 @@ export default function ContactPopup() {
                   }}
                 >
                   <span>
-                    {sent ? "Thanks — message prepared!" : "We typically reply within a few days."}
+                    {sent ? (
+                      "Thanks — message prepared!"
+                    ) : (
+                      <>
+                        ⚠️ Our send button is currently not working. Please email us at{" "}
+                        <strong>info@advancecareers.org</strong> instead.
+                      </>
+                    )}
                   </span>
                   <span>
                     {remaining} / {charMax}

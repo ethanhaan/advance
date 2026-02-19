@@ -6,6 +6,7 @@ import homebushboysLogo from '../assets/school_logos/homebushboys.png';
 import huntershillLogo from '../assets/school_logos/huntershill.jpg';
 import paramattaLogo from '../assets/school_logos/paramatta.jpeg';
 import sydneytechLogo from '../assets/school_logos/sydneytech.jpeg';
+import advanceImage from '../assets/advance_front.jpg';
 
 const ImageCycler = ({ images, phase = 0 }) => {
   const [idx, setIdx] = useState(0);
@@ -77,7 +78,7 @@ export default () => {
           fontWeight: "bold",
           margin: "0 0 16px 0",
         }}>
-          Our impact
+          The Problem
         </p>
         
         <h1 style={{
@@ -88,7 +89,7 @@ export default () => {
           margin: "0 0 24px 0",
           lineHeight: 1.2,
         }}>
-          Who we've helped
+          Current careers education
         </h1>
         <p style={{
           fontSize: "16px",
@@ -96,7 +97,12 @@ export default () => {
           lineHeight: 1.6,
           margin: 0,
         }}>
-          From workshops delivered to careers launched, see how Advance Careers is making a measurable difference in the lives of young Australians. Join us in celebrating our achievements and learn how you can help drive further success.
+          Students are making high-stakes subject and post-school decisions in an environment dominated by misinformation, social media narratives, and limited real-world exposure.
+
+          Schools are expected to prepare students for a rapidly changing labour market - often without the time, specialist resourcing, or up-to-date industry insight required to do this well.
+
+          The result is confusion, inequity, and decisions made without adequate guidance.
+
         </p>
         <div style={{
             position: "relative",
@@ -140,7 +146,7 @@ export default () => {
               fontWeight: "bold",
               margin: "0 0 16px 0",
             }}>
-              Our Offerings
+              Our Purpose
             </p>
             <h2 style={{
               fontFamily: "Poly",
@@ -150,18 +156,39 @@ export default () => {
               margin: "0 0 24px 0",
               lineHeight: 1.1,
             }}>
-              What do we do?
+              Why Advance Careers exists
             </h2>
             <p style={{
               fontFamily: "Montserrat",
               fontSize: "16px",
               color: "rgb(84, 84, 84)",
               lineHeight: 1.6,
-              margin: "0 0 32px 0",
+              margin: "0 0 16px 0", // Reduced margin for spacing between paragraphs
             }}>
-              Empowering the Next Generation with Real-World Career Guidance. Advance Careers is a student-led, not-for-profit organisation delivering high-impact, evidence-based workshops & career programs to high schools across NSW. Our mission is to make high-quality career education accessible, relatable, & genuinely inspiring.
+              Advance Careers was created to bridge the gap between school-based careers education and the realities of modern study, work, and training pathways.
             </p>
-            <button style={{
+
+            {/* Paragraph 2 */}
+            <p style={{
+              fontFamily: "Montserrat",
+              fontSize: "16px",
+              color: "rgb(84, 84, 84)",
+              lineHeight: 1.6,
+              margin: "0 0 16px 0",
+            }}>
+              We connect students with trained university mentors and young professionals who offer credible, lived-experience insights - delivered through structured programs designed to complement existing school frameworks, not add burden.
+            </p>
+
+            {/* Paragraph 3 */}
+            <p style={{
+              fontFamily: "Montserrat",
+              fontSize: "16px",
+              color: "rgb(84, 84, 84)",
+              lineHeight: 1.6,
+              margin: "0 0 32px 0", // Original margin for the bottom
+            }}>
+              Our not-for-profit model ensures advice is unbiased, evidence-based, and focused solely on student wellbeing and informed decision-making.
+            </p>            <button style={{
               backgroundColor: "#1A2B4D",
               color: "white",
               border: "none",
@@ -180,7 +207,7 @@ export default () => {
             flex: 1,
           }}>
             <img 
-              src="https://i.imgur.com/2y043yT.png" 
+              src={advanceImage}
               alt="Collage of workshop activities in a circular shape" 
               style={{ width: "100%", height: "auto" }} 
             />
