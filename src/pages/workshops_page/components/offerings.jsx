@@ -2,14 +2,17 @@
 import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import canterburyWorkshopImg from "../assets/canterbury_workshop.png";
+import careerinsightspanelimg from "../assets/P1050227.jpg";
+import studyskillsimg from "../assets/P1035682.jpg";
+import subjectexpertimg from "../assets/P1035532.jpg";
+import careerexplorationimg from "../assets/Ella Students.jpg";
 
 // --- Data for the Offering Cards + Detailed Content ---
 export const offeringsData = [
   {
-    imgUrl:
-      "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=1932&auto=format&fit=crop",
+    imgUrl: careerinsightspanelimg,
     title: "Career Insights Panel",
-    desc: "A panel of 4-5 university students from various degrees. Moderated discussions in an assembly format, with networking opportunities and a Q&A for student engagement.",
+    desc: "Great for year 12 students in particular, we bring 4-5 university students studying a broad spectrum of degrees to share their insights and advice with your students. Our engaging panellists share their stories, answer questions from the floor, and engage directly with students in an open networking session at the conclusion of the panel.",
     time: "1 - 1.5 hours",
     students: "100 - 300 Students",
     grade: "Years 10 - 12",
@@ -40,10 +43,9 @@ export const offeringsData = [
     carouselImages: [canterburyWorkshopImg, canterburyWorkshopImg, canterburyWorkshopImg],
   },
   {
-    imgUrl:
-      "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1770&auto=format&fit=crop",
+    imgUrl: studyskillsimg,
     title: "Study Skills Workshop",
-    desc: "Equip students with practical, evidence-based strategies & foundational processes delivered by high-achieving university students who have succeeded in high school & beyond using these systems.",
+    desc: "Perfect for all high school students, our small class study skills workshops are delivered by high-achieving and experienced workshop facilitators, who have all succeeded in high school and beyond using the methods we share in this workshop. This workshop equips students with practical, evidence-based study strategies that lay the foundation for a successful HSC.",
     time: "40 - 60 minutes",
     students: "20 - 30 Students",
     grade: "Years 7+",
@@ -74,10 +76,9 @@ export const offeringsData = [
     carouselImages: [canterburyWorkshopImg, canterburyWorkshopImg, canterburyWorkshopImg],
   },
   {
-    imgUrl:
-      "https://images.unsplash.com/photo-1573497491208-6b1acb260507?q=80&w=1770&auto=format&fit=crop",
+    imgUrl: subjectexpertimg,
     title: "Subject Expert Sessions",
-    desc: "We bring professionals or university students into classes to link studies with careers. For example, a paralegal might visit a Legal Studies class to discuss legal career paths.",
+    desc: "We bring young professionals pursuing careers relevant to your subject into your classes to bridge the gap. For example, a paralegal might visit a Legal Studies class to discuss legal career paths!",
     time: "40 - 60 minutes",
     students: "20 - 30 students",
     grade: "Years 9 - 11",
@@ -108,10 +109,9 @@ export const offeringsData = [
     carouselImages: [canterburyWorkshopImg, canterburyWorkshopImg, canterburyWorkshopImg],
   },
   {
-    imgUrl:
-      "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1770&auto=format&fit=crop",
+    imgUrl: careerexplorationimg,
     title: "Career Exploration Day",
-    desc: "Students rotate between career representatives from fields like Law, Finance, and Engineering, getting insights into each career path and tips for success in those industries.",
+    desc: "Think Careers Fair, but exclusively for your school! Students rotate between representatives from different fields, such as law, medicine, finance and engineering, gathering insights into each career path, whilst gaining tips for succeeding in those industries.",
     time: "1 - 1.5 hours",
     students: "100 - 300 Students",
     grade: "Years 10 - 12",

@@ -34,6 +34,7 @@ import reenaImg from '../assets/headshots/reena.jpeg';
 import pamelaImg from '../assets/headshots/pamela.jpeg';
 import victorImg from '../assets/headshots/victor.jpeg';
 import winstonImg from '../assets/headshots/winston.jpeg';
+import adrianImg from '../assets/headshots/adrian.jpg';
 
 const teamData = {
   Directors: [
@@ -43,10 +44,12 @@ const teamData = {
     { name: 'Ethan Han', role: 'Director', img: ethanImg, linkedin: '#' },
   ],
   Executives: [
-    { name: 'Joselyn Singh', role: 'Marketing Manager', img: joselynImg, linkedin: '#' },
-    { name: 'Michael Girgis', role: 'Outreach Manager', img: michaelgImg, linkedin: '#' },
+    { name: 'Adrian Si', role: 'Technology Manager', img: adrianImg, linkedin: '#' },
+    { name: 'Pamela Pang', role: 'Marketing Manager', img: pamelaImg, linkedin: '#' },
     { name: 'Reena Chen', role: 'Workshops Manager', img: reenaImg, linkedin: '#' },
-    { name: 'Winston Li', role: 'Curriculum Lead', img: winstonImg, linkedin: '#' },
+    { name: 'Ella Robinson', role: 'People & Culture Manager', img: winstonImg, linkedin: '#' },
+    { name: 'Joanna Kong', role: 'Sales & Outreach Manager', img: winstonImg, linkedin: '#' },
+    { name: 'Vienna Nguyen', role: 'Sales & Outreach Manager', img: winstonImg, linkedin: '#' },
   ],
   General: [
     { name: 'Akif Kazi', role: 'Training Lead', img: akifImg, linkedin: '#' },

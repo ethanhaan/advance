@@ -2,20 +2,24 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import TimelineItem from './timelineitem';
 import './timeline.css';
+import milestone1img from "../assets/P1023293.jpg";
+import milestone2img from "../assets/P1050130.jpg";
+import milestone3img from "../assets/Panel Wideshot.jpg";
+import milestone4img from "../assets/Xerxes Students.jpg";
 
 const timelineData = [
-  { date: 'August 21, 2024', title: 'Career Panel Event',
-    imageUrl: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1470&q=80',
-    description: 'Hosted our annual career panel, connecting students with industry professionals.' },
-  { date: 'October 15, 2024', title: '2,000 Students and Growing!',
-    imageUrl: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1471&q=80',
-    description: 'Our impact continues to grow! Workshops at local high schools take us past 2,000 students.' },
-  { date: 'November 5, 2024', title: 'Leadership Workshop',
-    imageUrl: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1470&q=80',
-    description: 'A special workshop focusing on building leadership skills for the next generation.' },
-  { date: 'December 1, 2024', title: 'End of Year Celebration',
-    imageUrl: 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&w=1470&q=80',
-    description: 'Celebrating a successful year of impact and growth with our team and volunteers.' },
+  { date: 'December 13, 2023', title: 'Advance Careers’ Inaugural Workshop',
+    imageUrl: milestone1img,
+    description: 'We delivered our first careers guidance workshops with over 300 students at Parramatta High School. The first of many!' },
+  { date: 'August 26, 2024', title: 'First Careers Insights Panel',
+    imageUrl: milestone2img,
+    description: 'We launched our careers insights panels, starting with Baulkham Hills High School, where we directly connected with hundreds of year 12 students about to embark on their tertiary studies. ' },
+  { date: 'End of 2024', title: 'Over 2000 students and growing!',
+    imageUrl: milestone3img,
+    description: 'With over 50 workshops delivered across 10 schools, our impact continues to grow!' },
+  { date: '2025', title: 'Building strong relationships with local schools',
+    imageUrl: milestone4img,
+    description: 'Annual recurring workshops with Baulkham Hills High School, Willoughby Girls High School and Hunters Hill High School' },
 ];
 
 const Timeline = () => {

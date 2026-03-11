@@ -29,7 +29,7 @@ export default function Quote() {
   return (
     <section style={sectionStyle}>
       <blockquote style={quoteStyle}>
-        "Career education is not just a - it’s a tool for agency."
+        “Career education is not an afterthought - it's a necessary tool for agency”
       </blockquote>
     </section>
   );

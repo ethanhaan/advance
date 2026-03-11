@@ -146,7 +146,7 @@ export default function Testimonial() {
         <div style={overlayStyle}></div>
         <div style={imageContentStyle}>
           <p style={imageQuoteStyle}>
-            "Advance Careers showed me the pathways I never knew existed."
+            “I would highly recommend you all get Advance Careers into your schools, the impact they make is everlasting. They are engaging and they will work to fit things in for your students!”
           </p>
           <PlayIcon />
         </div>
@@ -156,10 +156,10 @@ export default function Testimonial() {
       <div style={quotePanelStyle}>
         <div style={quoteContentStyle}>
           <p style={mainQuoteStyle}>
-            "They broke everything down in a way that made sense - from uni courses to alternative pathways. It made planning my future feel achievable."
+            “The workshops were fabulous today, I was very excited to see 12 fantastic university students coming to give their time to our kids, and they related really well because their age difference is not so much. I hope we can do this a lot.”
           </p>
           <p style={authorStyle}>
-            — Jayden S. YEAR 12 STUDENT
+            — Michelle I. Careers Adviser from Parramatta High School
           </p>
           <div style={iconWrapperStyle}>
             <QuoteIcon color="#374151" />
