@@ -12,7 +12,7 @@ export const offeringsData = [
   {
     imgUrl: careerinsightspanelimg,
     title: "Career Insights Panel",
-    desc: "Great for year 12 students in particular, we bring 4-5 university students studying a broad spectrum of degrees to share their insights and advice with your students. Our engaging panellists share their stories, answer questions from the floor, and engage directly with students in an open networking session at the conclusion of the panel.",
+    desc: "Great for year 12 students in particular, we bring 4-5 university students studying a broad spectrum of degrees to share their insights and advice with your students. Our engaging panellists share real stories and answer questions.",
     time: "1 - 1.5 hours",
     students: "100 - 300 Students",
     grade: "Years 10 - 12",
@@ -45,7 +45,7 @@ export const offeringsData = [
   {
     imgUrl: studyskillsimg,
     title: "Study Skills Workshop",
-    desc: "Perfect for all high school students, our small class study skills workshops are delivered by high-achieving and experienced workshop facilitators, who have all succeeded in high school and beyond using the methods we share in this workshop. This workshop equips students with practical, evidence-based study strategies that lay the foundation for a successful HSC.",
+    desc: "Perfect for all high school students, our small class study skills workshops are delivered by high-achieving and experienced workshop facilitators, who have all succeeded in high school and beyond using the methods we share.",
     time: "40 - 60 minutes",
     students: "20 - 30 Students",
     grade: "Years 7+",
@@ -111,7 +111,7 @@ export const offeringsData = [
   {
     imgUrl: careerexplorationimg,
     title: "Career Exploration Day",
-    desc: "Think Careers Fair, but exclusively for your school! Students rotate between representatives from different fields, such as law, medicine, finance and engineering, gathering insights into each career path, whilst gaining tips for succeeding in those industries.",
+    desc: "Think Careers Fair, but exclusively for your school! Students rotate between representatives from different fields, such as law, medicine, finance and engineering, gathering insights into each career path.",
     time: "1 - 1.5 hours",
     students: "100 - 300 Students",
     grade: "Years 10 - 12",

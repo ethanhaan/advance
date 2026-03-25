@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 const values = [
   {
     title: 'Empowerment',
-    body: 'We empower students with the knowledge and skills to take control of their financial futures and make informed career decisions.',
+    body: 'We empower students with the knowledge and skills to take control of their futures and make informed career decisions.',
   },
   {
     title: 'Accessibility',

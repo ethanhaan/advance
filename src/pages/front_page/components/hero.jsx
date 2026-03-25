@@ -377,20 +377,20 @@ export default function Hero({ style }) {
             animate="show"
           >
             <motion.li style={statStyle} variants={statItem}>
-              <span style={statValueStyle}>50+</span>
+              <span style={statValueStyle}>2500+</span>
               <span style={statLabelStyle}>STUDENTS REACHED</span>
             </motion.li>
             <motion.li style={statStyle} variants={statItem}>
-              <span style={statValueStyle}>100+</span>
-              <span style={statLabelStyle}>TEAM OF UNI STUDENTS</span>
+              <span style={statValueStyle}>30</span>
+              <span style={statLabelStyle}>TEAM OF UNI STUDENTS & RECENT GRADUATES</span>
             </motion.li>
             <motion.li style={statStyle} variants={statItem}>
               <span style={statValueStyle}>10</span>
               <span style={statLabelStyle}>SCHOOLS ACROSS AUSTRALIA</span>
             </motion.li>
             <motion.li style={statStyle} variants={statItem}>
-              <span style={statValueStyle}>$3.5K</span>
-              <span style={statLabelStyle}>METRIC</span>
+              <span style={statValueStyle}>100K+</span>
+              <span style={statLabelStyle}>SOCIAL MEDIA VIEWS</span>
             </motion.li>
           </motion.ul>
 
