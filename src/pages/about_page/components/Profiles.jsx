@@ -24,10 +24,10 @@ import callumImg from '../assets/headshots/callum.jpeg';
 import carolImg from '../assets/headshots/carol.jpeg';
 import hazelImg from '../assets/headshots/hazel.jpg';
 import jamieImg from '../assets/headshots/jamie.jpeg';
-import jessicaImg from '../assets/headshots/jessica.png';
-import jonathanImg from '../assets/headshots/jono.png';
+import jessicaImg from '../assets/headshots/jessica.jpg';
+import jonathanImg from '../assets/headshots/jono.jpg';
 import jordonImg from '../assets/headshots/jordon.jpeg';
-import joselynImg from '../assets/headshots/joselyn.png';
+import joselynImg from '../assets/headshots/joselyn.jpg';
 import michaelgImg from '../assets/headshots/michaelg.jpg';
 import mikhailImg from '../assets/headshots/mikhail.jpg';
 import reenaImg from '../assets/headshots/reena.jpeg';
@@ -37,7 +37,7 @@ import winstonImg from '../assets/headshots/winston.jpeg';
 import adrianImg from '../assets/headshots/adrian.jpg';
 import joannaImg from '../assets/headshots/joanna.jpeg';
 import ellaImg from '../assets/headshots/ella.jpeg';
-import viennaImg from "../assets/headshots/vienna.png";
+import viennaImg from "../assets/headshots/vienna.jpg";
 
 const teamData = {
   Directors: [

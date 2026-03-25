@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import workshopimg from "../assets/hero_image.png";
+import workshopimg from "../assets/hero_image.jpg";
 
 // --- 1. Move Animation Constants OUTSIDE the component ---
 const swipeTransition = { duration: 0.9, ease: [0.16, 1, 0.3, 1] };

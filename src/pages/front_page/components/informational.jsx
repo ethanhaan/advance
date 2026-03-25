@@ -1,7 +1,7 @@
 import './informational.css';
 import { useState } from 'react';
 
-import bonnriggLogo from '../assets/school_logos/bonnrigg.png';
+import bonnriggLogo from '../assets/school_logos/bonnrigg.jpg';
 import homebushboysLogo from '../assets/school_logos/homebushboys.png';
 import huntershillLogo from '../assets/school_logos/huntershill.jpg';
 import paramattaLogo from '../assets/school_logos/paramatta.jpeg';

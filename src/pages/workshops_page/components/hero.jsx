@@ -1,7 +1,7 @@
 // ./src/pages/workshops_page/components/hero.jsx
 import React from "react";
 import { motion } from "framer-motion";
-import canterburyworkshopimg from "../assets/canterbury_workshop.png";
+import canterburyworkshopimg from "../assets/canterbury_workshop.jpg";
 
 export default () => {
   // ======== Swipe / Wipe helpers (Canva-like) ========

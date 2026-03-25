@@ -1,7 +1,7 @@
 // ./src/pages/workshops_page/components/offerings.jsx
 import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
-import canterburyWorkshopImg from "../assets/canterbury_workshop.png";
+import canterburyWorkshopImg from "../assets/canterbury_workshop.jpg";
 import careerinsightspanelimg from "../assets/P1050227.jpg";
 import studyskillsimg from "../assets/P1035682.jpg";
 import subjectexpertimg from "../assets/P1035532.jpg";
