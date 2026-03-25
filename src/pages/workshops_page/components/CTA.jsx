@@ -1,10 +1,8 @@
 // src/pages/about_page/components/CTA.jsx
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Using Link for internal navigation
 
 export default function CTA() {
   const [isHovered1, setIsHovered1] = useState(false);
-  const [isHovered2, setIsHovered2] = useState(false);
 
   const sectionStyle = {
     backgroundColor: '#060A1B', // Dark background as requested
@@ -57,21 +55,18 @@ export default function CTA() {
     gap: '8px',
     borderRadius: '9999px',
     padding: '12px 24px',
-    textDecoration: 'none',
+    border: 'none',
     color: '#FFFFFF',
+    fontFamily: '"Montserrat", sans-serif',
+    fontSize: 'inherit',
     fontWeight: 500,
+    cursor: 'pointer',
     transition: 'background-color 150ms ease-in-out',
   };
 
   const primaryButtonStyle = {
     ...baseButtonStyle,
     backgroundColor: isHovered1 ? 'rgba(255, 255, 255, 0.15)' : 'rgba(255, 255, 255, 0.1)',
-  };
-
-  const secondaryButtonStyle = {
-    ...baseButtonStyle,
-    border: '1px solid rgba(255, 255, 255, 0.15)',
-    backgroundColor: isHovered2 ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
   };
 
   return (
@@ -83,22 +78,14 @@ export default function CTA() {
           Book a workshop, invite us to speak, or partner with us to reach more students.
         </p>
         <div style={buttonContainerStyle}>
-          <Link
-            to="/book"
+          <button
+            onClick={() => window.dispatchEvent(new CustomEvent("open-contact", { detail: { source: "workshops-cta" } }))}
             style={primaryButtonStyle}
             onMouseEnter={() => setIsHovered1(true)}
             onMouseLeave={() => setIsHovered1(false)}
           >
             Book a Workshop <span aria-hidden="true">→</span>
-          </Link>
-          <Link
-            to="/contact"
-            style={secondaryButtonStyle}
-            onMouseEnter={() => setIsHovered2(true)}
-            onMouseLeave={() => setIsHovered2(false)}
-          >
-            Contact Us
-          </Link>
+          </button>
         </div>
       </div>
     </section>
