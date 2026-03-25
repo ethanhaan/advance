@@ -5,7 +5,7 @@ const timeline = [
   {
     time: '2023',
     title: 'Foundation & First Workshop',
-    body: 'Advance Careers was founded with the mission to bridge the gap between high school education and real-world career knowledge. We held our first-ever workshop at Sydney Technical High School.',
+    body: 'Advance Careers was founded with the mission to bridge the gap between high school education and real-world career knowledge. We held our first-ever workshop at Parramatta High School.',
   },
   {
     time: '2024',
