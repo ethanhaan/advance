@@ -188,17 +188,20 @@ export default () => {
               margin: "0 0 32px 0", // Original margin for the bottom
             }}>
               Our not-for-profit model ensures advice is unbiased, evidence-based, and focused solely on student wellbeing and informed decision-making.
-            </p>            <button style={{
-              backgroundColor: "#1A2B4D",
-              color: "white",
-              border: "none",
-              borderRadius: "4px",
-              padding: "12px 24px",
-              fontSize: "16px",
-              fontFamily: "Montserrat",
-              fontWeight: "bold",
-              cursor: "pointer",
-            }}>
+            </p>            <button
+              onClick={() => window.dispatchEvent(new CustomEvent("open-contact", { detail: { source: "informational" } }))}
+              style={{
+                backgroundColor: "#1A2B4D",
+                color: "white",
+                border: "none",
+                borderRadius: "4px",
+                padding: "12px 24px",
+                fontSize: "16px",
+                fontFamily: "Montserrat",
+                fontWeight: "bold",
+                cursor: "pointer",
+              }}
+            >
               Contact Us
             </button>
           </div>

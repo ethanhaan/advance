@@ -67,6 +67,7 @@ export default function RedPage() {
           whileHover={{ y: -2, scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+          onClick={() => window.dispatchEvent(new CustomEvent("open-contact", { detail: { source: "red-page" } }))}
         >
           Contact Us
         </motion.button>
