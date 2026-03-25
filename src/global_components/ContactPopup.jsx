@@ -3,7 +3,9 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
-const MAILTO_ADDRESS = ""; // e.g. "hello@advancecareers.org.au"
+const WEB3FORMS_ACCESS_KEY = "11dc10b8-e9d5-46ae-974b-277d7cd35e23";
+const COOLDOWN_MS = 5 * 60 * 1000; // 5 minutes between submissions
+const COOLDOWN_KEY = "contact-last-sent";
 
 function useIsMobile(maxWidthPx = 640) {
   const [isMobile, setIsMobile] = useState(() => {
@@ -38,8 +40,11 @@ export default function ContactPopup() {
   const [source, setSource] = useState(null);
   const modalRef = useRef(null);
 
-  const [form, setForm] = useState({ email: "", message: "" });
+  const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState(null);
+  const [cooldownLeft, setCooldownLeft] = useState(0);
   const charMax = 800;
 
   useEffect(() => {
@@ -56,6 +61,20 @@ export default function ContactPopup() {
       window.removeEventListener("close-contact", closeHandler);
     };
   }, []);
+
+  // Cooldown timer
+  useEffect(() => {
+    if (!open) return;
+    const check = () => {
+      const last = parseInt(localStorage.getItem(COOLDOWN_KEY) || "0", 10);
+      const remaining = Math.max(0, COOLDOWN_MS - (Date.now() - last));
+      setCooldownLeft(remaining);
+      return remaining;
+    };
+    check();
+    const interval = setInterval(check, 1000);
+    return () => clearInterval(interval);
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
@@ -187,28 +206,43 @@ export default function ContactPopup() {
   );
 
   const remaining = charMax - (form.message?.length || 0);
-  const canSend = validEmail && form.message.trim().length > 0 && remaining >= 0;
+  const inCooldown = cooldownLeft > 0;
+  const canSend = form.name.trim().length > 0 && validEmail && form.message.trim().length > 0 && remaining >= 0 && !sending && !inCooldown;
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
-    const subject = encodeURIComponent("Advance Careers — Contact form");
-    const body = encodeURIComponent(
-      [
-        `Email: ${form.email}`,
-        `Source: ${source || "unknown"}`,
-        "",
-        form.message,
-      ].join("\n")
-    );
+    if (!canSend) return;
 
-    if (MAILTO_ADDRESS) {
-      window.location.href = `mailto:${MAILTO_ADDRESS}?subject=${subject}&body=${body}`;
-    } else {
-      console.log("CONTACT SUBMISSION", { ...form, source });
+    setSending(true);
+    setError(null);
+
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          message: form.message,
+          source: source || "unknown",
+          subject: "Advance Careers — Contact form",
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) throw new Error(data.message || "Submission failed");
+
+      localStorage.setItem(COOLDOWN_KEY, String(Date.now()));
+      setSent(true);
+      setForm({ name: "", email: "", phone: "", message: "" });
+      setTimeout(() => setOpen(false), 3000);
+    } catch (err) {
+      setError(err.message || "Something went wrong. Please try again.");
+    } finally {
+      setSending(false);
     }
-
-    setSent(true);
-    setTimeout(() => setOpen(false), 1200);
   };
 
   const headerTitleId = "contact-popup-title";
@@ -356,185 +390,361 @@ export default function ContactPopup() {
               </motion.button>
             </motion.div>
 
-            {/* Body (scrollable on mobile) */}
-            <motion.form
-              onSubmit={submit}
-              style={{
-                padding: isMobile ? "8px 18px 18px" : "10px 34px 28px",
-                overflowY: "auto",
-                WebkitOverflowScrolling: "touch",
-                flex: "1 1 auto",
-              }}
-              variants={contentStagger}
-              initial="hidden"
-              animate="show"
-            >
-              {/* Email */}
-              <motion.div style={{ position: "relative" }} variants={item}>
-                <div style={label}>Email</div>
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
+            <AnimatePresence mode="wait">
+              {sent ? (
+                /* ── Success screen ── */
+                <motion.div
+                  key="success"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                   style={{
-                    position: "absolute",
-                    left: 12,
-                    top: 38,
-                    pointerEvents: "none",
-                    opacity: 0.7,
-                  }}
-                  aria-hidden="true"
-                >
-                  <path d="M4 6h16v12H4z" stroke="currentColor" strokeWidth="1.6" />
-                  <path
-                    d="M4 7l8 6 8-6"
-                    stroke="currentColor"
-                    strokeWidth="1.6"
-                  />
-                </svg>
-
-                <input
-                  name="email"
-                  type="email"
-                  required
-                  inputMode="email"
-                  placeholder="you@school.edu.au"
-                  value={form.email}
-                  onChange={onChange}
-                  style={{
-                    ...inputBase,
-                    borderColor:
-                      form.email && !validEmail ? "#ef4444" : COLORS.inputBorder,
-                    boxShadow:
-                      form.email && !validEmail
-                        ? "0 0 0 3px rgba(239,68,68,0.15)"
-                        : "none",
-                  }}
-                  onFocus={(e) => {
-                    e.currentTarget.style.borderColor = COLORS.blue;
-                    e.currentTarget.style.boxShadow =
-                      "0 0 0 4px rgba(27,86,186,0.15)";
-                    e.currentTarget.style.background = "#FFFFFF";
-                  }}
-                  onBlur={(e) => {
-                    e.currentTarget.style.borderColor = COLORS.inputBorder;
-                    e.currentTarget.style.boxShadow = "none";
-                    e.currentTarget.style.background = COLORS.inputBg;
-                  }}
-                  aria-invalid={form.email && !validEmail ? "true" : "false"}
-                />
-              </motion.div>
-
-              {/* Message */}
-              <motion.div style={{ marginTop: 12 }} variants={item}>
-                <div style={label}>Message</div>
-                <textarea
-                  name="message"
-                  required
-                  maxLength={charMax}
-                  placeholder="Tell us about your school, dates, or what you’re after…"
-                  value={form.message}
-                  onChange={onChange}
-                  style={areaBase}
-                  onFocus={(e) => {
-                    e.currentTarget.style.borderColor = COLORS.blue;
-                    e.currentTarget.style.boxShadow =
-                      "0 0 0 4px rgba(27,86,186,0.15)";
-                    e.currentTarget.style.background = "#FFFFFF";
-                  }}
-                  onBlur={(e) => {
-                    e.currentTarget.style.borderColor = COLORS.inputBorder;
-                    e.currentTarget.style.boxShadow = "none";
-                    e.currentTarget.style.background = COLORS.inputBg;
-                  }}
-                />
-                <div
-                  style={{
-                    marginTop: 6,
-                    fontFamily:
-                      "Montserrat, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif",
-                    fontSize: 12,
-                    color: remaining < 0 ? "#ef4444" : COLORS.subtleText,
+                    padding: isMobile ? "40px 18px 48px" : "56px 34px 64px",
                     display: "flex",
-                    flexDirection: isMobile ? "column" : "row",
-                    gap: isMobile ? 6 : 0,
-                    justifyContent: "space-between",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    textAlign: "center",
+                    flex: "1 1 auto",
                   }}
                 >
-                  <span>
-                    {sent ? (
-                      "Thanks — message prepared!"
-                    ) : (
-                      <>
-                        ⚠️ Our send button is currently not working. Please email us at{" "}
-                        <strong>info@advancecareers.org</strong> instead.
-                      </>
-                    )}
-                  </span>
-                  <span>
-                    {remaining} / {charMax}
-                  </span>
-                </div>
-              </motion.div>
+                  {/* Animated checkmark circle */}
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.1 }}
+                    style={{
+                      width: 72,
+                      height: 72,
+                      borderRadius: "50%",
+                      background: COLORS.blue,
+                      display: "grid",
+                      placeItems: "center",
+                      marginBottom: 24,
+                    }}
+                  >
+                    <motion.svg
+                      width="36"
+                      height="36"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      initial={{ pathLength: 0, opacity: 0 }}
+                      animate={{ pathLength: 1, opacity: 1 }}
+                      transition={{ duration: 0.4, delay: 0.3 }}
+                    >
+                      <motion.path
+                        d="M5 13l4 4L19 7"
+                        stroke="#FFFFFF"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        initial={{ pathLength: 0 }}
+                        animate={{ pathLength: 1 }}
+                        transition={{ duration: 0.4, delay: 0.35, ease: "easeOut" }}
+                      />
+                    </motion.svg>
+                  </motion.div>
 
-              {/* Actions */}
-              <motion.div
-                style={{
-                  display: "flex",
-                  flexDirection: isMobile ? "column-reverse" : "row",
-                  justifyContent: "flex-end",
-                  alignItems: "stretch",
-                  gap: 10,
-                  marginTop: 18,
-                }}
-                variants={item}
-              >
-                <button
-                  type="button"
-                  onClick={() => setOpen(false)}
-                  style={{
-                    background: "transparent",
-                    color: COLORS.subtleText,
-                    border: "1px solid rgba(17,24,39,0.10)",
-                    padding: isMobile ? "12px 14px" : "10px 12px",
-                    fontWeight: 700,
-                    cursor: "pointer",
-                    borderRadius: 8,
-                    width: isMobile ? "100%" : "auto",
-                    fontFamily:
-                      "Montserrat, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif",
-                    touchAction: "manipulation",
-                  }}
-                >
-                  Cancel
-                </button>
+                  <motion.h3
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.25 }}
+                    style={{
+                      margin: 0,
+                      fontFamily: "Poly, ui-serif, Georgia, Cambria, Times New Roman, serif",
+                      fontSize: isMobile ? 22 : 26,
+                      fontWeight: 400,
+                      color: COLORS.baseText,
+                    }}
+                  >
+                    Message sent
+                  </motion.h3>
 
-                <motion.button
-                  type="submit"
-                  disabled={!canSend}
+                  <motion.p
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.35 }}
+                    style={{
+                      margin: "10px 0 0",
+                      fontFamily: "Montserrat, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif",
+                      fontSize: 15,
+                      color: COLORS.subtleText,
+                      maxWidth: 320,
+                      lineHeight: 1.5,
+                    }}
+                  >
+                    Thanks for reaching out — we’ll be in touch soon.
+                  </motion.p>
+                </motion.div>
+              ) : (
+                /* ── Form ── */
+                <motion.form
+                  key="form"
+                  onSubmit={submit}
+                  exit={{ opacity: 0, scale: 0.97, transition: { duration: 0.2 } }}
                   style={{
-                    background: COLORS.blue,
-                    color: "#FFFFFF",
-                    border: `1px solid ${COLORS.blue}`,
-                    borderRadius: 8,
-                    padding: isMobile ? "12px 14px" : "10px 18px",
-                    fontWeight: 800,
-                    cursor: canSend ? "pointer" : "not-allowed",
-                    opacity: canSend ? 1 : 0.65,
-                    width: isMobile ? "100%" : "auto",
-                    fontFamily:
-                      "Montserrat, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif",
-                    touchAction: "manipulation",
+                    padding: isMobile ? "8px 18px 18px" : "10px 34px 28px",
+                    overflowY: "auto",
+                    WebkitOverflowScrolling: "touch",
+                    flex: "1 1 auto",
                   }}
-                  whileHover={isMobile ? undefined : { y: -1, scale: 1.03 }}
-                  whileTap={{ scale: 0.98 }}
-                  transition={{ type: "spring", stiffness: 260, damping: 20 }}
+                  variants={contentStagger}
+                  initial="hidden"
+                  animate="show"
                 >
-                  Send
-                </motion.button>
-              </motion.div>
-            </motion.form>
+                  {/* Name */}
+                  <motion.div style={{ position: "relative" }} variants={item}>
+                    <div style={label}>Name</div>
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      style={{
+                        position: "absolute",
+                        left: 12,
+                        top: 38,
+                        pointerEvents: "none",
+                        opacity: 0.7,
+                      }}
+                      aria-hidden="true"
+                    >
+                      <circle cx="12" cy="8" r="4" stroke="currentColor" strokeWidth="1.6" />
+                      <path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                    </svg>
+                    <input
+                      name="name"
+                      type="text"
+                      required
+                      placeholder="Your name"
+                      value={form.name}
+                      onChange={onChange}
+                      style={inputBase}
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor = COLORS.blue;
+                        e.currentTarget.style.boxShadow =
+                          "0 0 0 4px rgba(27,86,186,0.15)";
+                        e.currentTarget.style.background = "#FFFFFF";
+                      }}
+                      onBlur={(e) => {
+                        e.currentTarget.style.borderColor = COLORS.inputBorder;
+                        e.currentTarget.style.boxShadow = "none";
+                        e.currentTarget.style.background = COLORS.inputBg;
+                      }}
+                    />
+                  </motion.div>
+
+                  {/* Email */}
+                  <motion.div style={{ position: "relative", marginTop: 12 }} variants={item}>
+                    <div style={label}>Email</div>
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      style={{
+                        position: "absolute",
+                        left: 12,
+                        top: 38,
+                        pointerEvents: "none",
+                        opacity: 0.7,
+                      }}
+                      aria-hidden="true"
+                    >
+                      <path d="M4 6h16v12H4z" stroke="currentColor" strokeWidth="1.6" />
+                      <path
+                        d="M4 7l8 6 8-6"
+                        stroke="currentColor"
+                        strokeWidth="1.6"
+                      />
+                    </svg>
+
+                    <input
+                      name="email"
+                      type="email"
+                      required
+                      inputMode="email"
+                      placeholder="you@school.edu.au"
+                      value={form.email}
+                      onChange={onChange}
+                      style={{
+                        ...inputBase,
+                        borderColor:
+                          form.email && !validEmail ? "#ef4444" : COLORS.inputBorder,
+                        boxShadow:
+                          form.email && !validEmail
+                            ? "0 0 0 3px rgba(239,68,68,0.15)"
+                            : "none",
+                      }}
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor = COLORS.blue;
+                        e.currentTarget.style.boxShadow =
+                          "0 0 0 4px rgba(27,86,186,0.15)";
+                        e.currentTarget.style.background = "#FFFFFF";
+                      }}
+                      onBlur={(e) => {
+                        e.currentTarget.style.borderColor = COLORS.inputBorder;
+                        e.currentTarget.style.boxShadow = "none";
+                        e.currentTarget.style.background = COLORS.inputBg;
+                      }}
+                      aria-invalid={form.email && !validEmail ? "true" : "false"}
+                    />
+                  </motion.div>
+
+                  {/* Phone */}
+                  <motion.div style={{ position: "relative", marginTop: 12 }} variants={item}>
+                    <div style={label}>Phone</div>
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      style={{
+                        position: "absolute",
+                        left: 12,
+                        top: 38,
+                        pointerEvents: "none",
+                        opacity: 0.7,
+                      }}
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M6.6 10.8a13.3 13.3 0 006.6 6.6l2.2-2.2a.9.9 0 01.9-.2 10.2 10.2 0 003.2.5.9.9 0 01.9.9v3.1a.9.9 0 01-.9.9A15.1 15.1 0 013.6 4.5a.9.9 0 01.9-.9H7.6a.9.9 0 01.9.9 10.2 10.2 0 00.5 3.2.9.9 0 01-.2.9L6.6 10.8z"
+                        stroke="currentColor"
+                        strokeWidth="1.4"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    <input
+                      name="phone"
+                      type="tel"
+                      inputMode="tel"
+                      placeholder="04XX XXX XXX"
+                      value={form.phone}
+                      onChange={onChange}
+                      style={inputBase}
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor = COLORS.blue;
+                        e.currentTarget.style.boxShadow =
+                          "0 0 0 4px rgba(27,86,186,0.15)";
+                        e.currentTarget.style.background = "#FFFFFF";
+                      }}
+                      onBlur={(e) => {
+                        e.currentTarget.style.borderColor = COLORS.inputBorder;
+                        e.currentTarget.style.boxShadow = "none";
+                        e.currentTarget.style.background = COLORS.inputBg;
+                      }}
+                    />
+                  </motion.div>
+
+                  {/* Message */}
+                  <motion.div style={{ marginTop: 12 }} variants={item}>
+                    <div style={label}>Message</div>
+                    <textarea
+                      name="message"
+                      required
+                      maxLength={charMax}
+                      placeholder="Tell us about your school, dates, or what you’re after…"
+                      value={form.message}
+                      onChange={onChange}
+                      style={areaBase}
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor = COLORS.blue;
+                        e.currentTarget.style.boxShadow =
+                          "0 0 0 4px rgba(27,86,186,0.15)";
+                        e.currentTarget.style.background = "#FFFFFF";
+                      }}
+                      onBlur={(e) => {
+                        e.currentTarget.style.borderColor = COLORS.inputBorder;
+                        e.currentTarget.style.boxShadow = "none";
+                        e.currentTarget.style.background = COLORS.inputBg;
+                      }}
+                    />
+                    <div
+                      style={{
+                        marginTop: 6,
+                        fontFamily:
+                          "Montserrat, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif",
+                        fontSize: 12,
+                        color: remaining < 0 ? "#ef4444" : COLORS.subtleText,
+                        display: "flex",
+                        flexDirection: isMobile ? "column" : "row",
+                        gap: isMobile ? 6 : 0,
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span>
+                        {error
+                          ? <span style={{ color: "#ef4444" }}>{error}</span>
+                          : inCooldown
+                            ? `You can send again in ${Math.ceil(cooldownLeft / 60000)}m`
+                            : <>Or email us directly at <strong>info@advancecareers.org</strong></>
+                        }
+                      </span>
+                      <span>
+                        {remaining} / {charMax}
+                      </span>
+                    </div>
+                  </motion.div>
+
+                  {/* Actions */}
+                  <motion.div
+                    style={{
+                      display: "flex",
+                      flexDirection: isMobile ? "column-reverse" : "row",
+                      justifyContent: "flex-end",
+                      alignItems: "stretch",
+                      gap: 10,
+                      marginTop: 18,
+                    }}
+                    variants={item}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setOpen(false)}
+                      style={{
+                        background: "transparent",
+                        color: COLORS.subtleText,
+                        border: "1px solid rgba(17,24,39,0.10)",
+                        padding: isMobile ? "12px 14px" : "10px 12px",
+                        fontWeight: 700,
+                        cursor: "pointer",
+                        borderRadius: 8,
+                        width: isMobile ? "100%" : "auto",
+                        fontFamily:
+                          "Montserrat, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif",
+                        touchAction: "manipulation",
+                      }}
+                    >
+                      Cancel
+                    </button>
+
+                    <motion.button
+                      type="submit"
+                      disabled={!canSend}
+                      style={{
+                        background: COLORS.blue,
+                        color: "#FFFFFF",
+                        border: `1px solid ${COLORS.blue}`,
+                        borderRadius: 8,
+                        padding: isMobile ? "12px 14px" : "10px 18px",
+                        fontWeight: 800,
+                        cursor: canSend ? "pointer" : "not-allowed",
+                        opacity: canSend ? 1 : 0.65,
+                        width: isMobile ? "100%" : "auto",
+                        fontFamily:
+                          "Montserrat, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif",
+                        touchAction: "manipulation",
+                      }}
+                      whileHover={isMobile ? undefined : { y: -1, scale: 1.03 }}
+                      whileTap={{ scale: 0.98 }}
+                      transition={{ type: "spring", stiffness: 260, damping: 20 }}
+                    >
+                      {sending ? "Sending…" : inCooldown ? "Wait" : "Send"}
+                    </motion.button>
+                  </motion.div>
+                </motion.form>
+              )}
+            </AnimatePresence>
           </motion.div>
         </motion.div>
       )}
