@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import './RedPage.css';
+import careerBg from '../assets/P1012175.jpg';
 
 export default function RedPage() {
   const prefersReducedMotion = useReducedMotion();
@@ -43,7 +44,7 @@ export default function RedPage() {
   };
 
   return (
-    <section className="red-page-section">
+    <section className="red-page-section" style={{ backgroundImage: `url(${careerBg})` }}>
       {/* Animated content wrapper */}
       <motion.div
         className="red-page-content"
